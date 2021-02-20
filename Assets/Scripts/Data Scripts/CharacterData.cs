@@ -69,7 +69,6 @@ public class CharacterData : MonoBehaviour
     // Returns bool for whether or not the character can sprint at the moment.
     public bool CanSprint()
     {
-        Debug.Log("CanSprint() called");
         // If there is stamina left,
         if (currentStamina > 0)
         {
