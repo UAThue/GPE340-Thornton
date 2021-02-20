@@ -12,24 +12,29 @@ public class Pawn : MonoBehaviour
 
     // The transform component on this player.
     [SerializeField] private Transform tf;
+
+    // The CharacterData on this character.
+    [SerializeField] private CharacterData data;
     #endregion Fields
 
     #region Unity Methods
     // Start is called before the first frame update
     void Start()
     {
-        // If the animator is not set up,
+        // If any of these are not set up, set them up.
         if (animator == null)
         {
-            // then set up the animator.
             animator = GetComponent<Animator>();
         }
 
-        // If the transform is not set up,
         if (tf == null)
         {
-            // then set up the transform.
             tf = transform;
+        }
+
+        if (data == null)
+        {
+            data = GetComponent<CharacterData>();
         }
     }
 
@@ -42,8 +47,34 @@ public class Pawn : MonoBehaviour
 
     #region Dev Methods
     // Called by a controller to move the character. Moves the character in a direction at a speed.
-    public void Move(Vector3 direction, float speed)
+    // Takes a bool for if the player is trying to sprint, and another for if trying to walk.
+    public void Move(Vector3 direction, float speed, bool shiftDown, bool controlDown)
     {
+        // If the player is trying to sprint, and if the player can sprint,
+        if (shiftDown && data.CanSprint())
+        {
+            // then the current speed is fine. Do nothing to the speed.
+        }
+        // Else, can't sprint, or is not trying.
+        else
+        {
+            // Tell the CharacterData that the player is not sprinting.
+            data.isSprinting = false;
+
+            // If player wants to walk,
+            if (controlDown)
+            {
+                // then adjust the speed one quarter normal.
+                speed /= 4;
+            }
+            // Else, character must move at normal run speed (half of the max speed that is passed in).
+            else
+            {
+                // Adjust speed to half.
+                speed /= 2;
+            }
+        }
+
         // Set the appropriate value on the animator to move.
         animator.SetFloat("Right", (direction.x * speed));
         animator.SetFloat("Forward", (direction.z * speed));
