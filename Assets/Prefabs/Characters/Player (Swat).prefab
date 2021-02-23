@@ -258,7 +258,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 121fea672c86b8642a79b69dfead17b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 4
+  maxMoveSpeed: 8
+  turnSpeed: 110
+  maxStamina: 100
+  staminaUseRate: 10
+  staminaRecoveryDelay: 1
+  staminaRecoveryRate: 20
+  isSprinting: 0
+  staminaBar: {fileID: 0}
 --- !u!114 &5575714414014507854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,8 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ad94eb58899e84c988d27a7a65fa6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  tf: {fileID: 0}
+  animator: {fileID: 6221943138877656653}
+  tf: {fileID: 52042656804934711}
+  data: {fileID: 8726527030737258746}
 --- !u!114 &518580227752588249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,9 +293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6014b30ee125141bf4af3cc50077f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
-  tf: {fileID: 0}
-  pawn: {fileID: 0}
+  data: {fileID: 8726527030737258746}
+  tf: {fileID: 52042656804934711}
+  pawn: {fileID: 5575714414014507854}
+  cam: {fileID: 0}
 --- !u!136 &1231634880198926152
 CapsuleCollider:
   m_ObjectHideFlags: 0
