@@ -11,6 +11,14 @@ using UnityEngine;
 public class Player_InputController : MonoBehaviour
 {
     #region Fields
+    [Header("Controls")]
+    // The key used to sprint with.
+    [SerializeField, Tooltip("The key used to sprint")] private KeyCode sprintKey = KeyCode.LeftShift;
+
+    // The key used to walk with.
+    [SerializeField, Tooltip("The key used to walk")] private KeyCode walkKey = KeyCode.LeftAlt;
+
+    [Header("Object/Component references")]
     // References the CharacterData on this character, which holds all character-specific data.
     [SerializeField] private CharacterData data;
 
@@ -54,8 +62,18 @@ public class Player_InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Take the user's input and tell the Pawn to move the player, accounting for speed.
-        pawn.Move(TakeInput(), data.maxMoveSpeed);
+        // Get whether or not the player is trying to sprint.
+        bool sprint = Input.GetKey(sprintKey);
+
+        // If not trying to sprint,
+        if (!sprint)
+        {
+            // Tell the CharacterData that the player is not sprinting.
+            data.isSprinting = false;
+        }
+
+        // Take the user's input and tell the Pawn to move the player, accounting for speed/sprint/walk.
+        pawn.Move(TakeInput(), data.maxMoveSpeed, sprint, Input.GetKey(walkKey));
 
         // Get the point that the mouse is aiming at and tell the Pawn to turn the player
         // towards that point over time.
