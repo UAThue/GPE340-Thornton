@@ -8,6 +8,7 @@ public class CharacterData : MonoBehaviour
 {
     #region Fields
     [Header("Speeds")]
+
     // The maximum movement speed of this character.
     [Tooltip("Max movement speed of this character.")]
     public float maxMoveSpeed = 8.0f;
@@ -16,7 +17,9 @@ public class CharacterData : MonoBehaviour
     [Tooltip("Speed that this character can turn.")]
     public float turnSpeed = 90.0f;
 
+
     [Header("Stamina")]
+
     // The player's maximum stamina.
     [SerializeField] private float maxStamina = 100.0f;
 
@@ -41,7 +44,9 @@ public class CharacterData : MonoBehaviour
     // The Stamins bar (slider) on the HUD.
     [SerializeField] private Slider staminaBar;
 
+
     [Header("Object & Component references")]
+
     // The OverheadCamera component on the camera that is following this character.
     public OverheadCamera overheadCam;
     #endregion Fields

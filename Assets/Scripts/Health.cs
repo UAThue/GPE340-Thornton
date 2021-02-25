@@ -5,6 +5,7 @@ public class Health : MonoBehaviour
 {
     #region Fields
     [Header("Health")]
+
     [SerializeField, Tooltip("The object's maximum health")]
     private float maxHealth = 100;
 
@@ -16,6 +17,7 @@ public class Health : MonoBehaviour
 
 
     [Header("Events")]
+
     [SerializeField, Tooltip("Raised every time the object is Damaged")]
     private UnityEvent onDamage;
     [SerializeField, Tooltip("Raised every time the object is healed")]

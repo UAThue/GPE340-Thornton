@@ -5,11 +5,7 @@ using UnityEngine;
 public class OverheadCamera : MonoBehaviour
 {
     #region Fields
-    // The Transform of the character that this camera should follow.
-    [SerializeField] private Transform character;
-
-    // The Transform of this camera.
-    [SerializeField] private Transform tf;
+    [Header("Camera Movement")]
 
     // The distance desired between the camera and the player.
     [SerializeField] private Vector3 offset = new Vector3(0, 10, 0);
@@ -19,6 +15,15 @@ public class OverheadCamera : MonoBehaviour
 
     // The speed that the camera follows the character while the character is sprinting.
     [SerializeField] private float moveSpeed_Sprinting = 4.5f;
+
+
+    [Header("Object & Component References")]
+
+    // The Transform of the character that this camera should follow.
+    [SerializeField] private Transform character;
+
+    // The Transform of this camera.
+    [SerializeField] private Transform tf;
     #endregion Fields
 
     #region Unity Methods

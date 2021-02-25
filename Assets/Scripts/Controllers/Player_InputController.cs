@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 // The input controller just takes input from the player, and tells the Pawn what that input was.
@@ -8,17 +7,23 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterData))]
 [RequireComponent(typeof(Pawn))]
 
-public class Player_InputController : MonoBehaviour
+public class Player_InputController : Controller
 {
     #region Fields
     [Header("Controls")]
+
     // The key used to sprint with.
     [SerializeField, Tooltip("The key used to sprint")] private KeyCode sprintKey = KeyCode.LeftShift;
 
     // The key used to walk with.
     [SerializeField, Tooltip("The key used to walk")] private KeyCode walkKey = KeyCode.LeftAlt;
 
+    // The key used to attack with the equiped weapon.
+    [SerializeField, Tooltip("The key used to attack")] private KeyCode attackKey = KeyCode.Mouse0;
+
+
     [Header("Object/Component references")]
+
     // References the CharacterData on this character, which holds all character-specific data.
     [SerializeField] private CharacterData data;
 
@@ -62,6 +67,18 @@ public class Player_InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Get all movement input and act appropriately.
+        GetMovementInput();
+
+        // Get all input relating to combat actions.
+        GetCombatInput();
+    }
+    #endregion Unity Methods
+
+    #region Dev Methods
+    // Abstracts all movement input gathering code to keep Update clean.
+    private void GetMovementInput()
+    {
         // Get whether or not the player is trying to sprint.
         bool sprint = Input.GetKey(sprintKey);
 
@@ -72,18 +89,17 @@ public class Player_InputController : MonoBehaviour
             data.isSprinting = false;
         }
 
-        // Take the user's input and tell the Pawn to move the player, accounting for speed/sprint/walk.
-        pawn.Move(TakeInput(), data.maxMoveSpeed, sprint, Input.GetKey(walkKey));
+        // Take the user's input for direction and whether or not they are sprinting/walking and such.
+        // Tell the Pawn to move the player, accounting for speed/sprint/walk.
+        pawn.Move(GetVelocity(), data.maxMoveSpeed, sprint, Input.GetKey(walkKey));
 
         // Get the point that the mouse is aiming at and tell the Pawn to turn the player
         // towards that point over time.
         pawn.TurnOverTime(GetMouseTarget(), data.turnSpeed);
     }
-    #endregion Unity Methods
 
-    #region Dev Methods
     // Called every frame to move the player based on their input.
-    private Vector3 TakeInput()
+    private Vector3 GetVelocity()
     {
         // Create a new Vector3 to hold the user's current input.
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
@@ -117,6 +133,23 @@ public class Player_InputController : MonoBehaviour
 
             // Return a point directly in front of where the player is currently facing.
             return tf.rotation.eulerAngles + tf.forward;
+        }
+    }
+
+    // Abstracts all combat input gathering code to keep Update clean.
+    private void GetCombatInput()
+    {
+        // If the player just pressed the fire key,
+        if (Input.GetKeyDown(attackKey))
+        {
+            // then tell the pawn's weapon to start the attack.
+            pawn.weapon.AttackStart();
+        }
+        // Else, if they just let go of that key,
+        else if (Input.GetKeyUp(attackKey))
+        {
+            // then tell the pawn's weapon to stop the attack.
+            pawn.weapon.AttackEnd();
         }
     }
     #endregion Dev Methods
