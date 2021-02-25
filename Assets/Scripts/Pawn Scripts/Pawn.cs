@@ -78,6 +78,9 @@ public class Pawn : MonoBehaviour
         // Set the appropriate value on the animator to move.
         animator.SetFloat("Right", (direction.x * speed));
         animator.SetFloat("Forward", (direction.z * speed));
+
+        // Tell the camera for this character to follow the character.
+        data.overheadCam.FollowCharacter(data.isSprinting);
     }
 
     // Called by a controller to turn the character toward a point instantaneously.

@@ -40,6 +40,10 @@ public class CharacterData : MonoBehaviour
 
     // The Stamins bar (slider) on the HUD.
     [SerializeField] private Slider staminaBar;
+
+    [Header("Object & Component references")]
+    // The OverheadCamera component on the camera that is following this character.
+    public OverheadCamera overheadCam;
     #endregion Fields
 
     #region Unity Methods
