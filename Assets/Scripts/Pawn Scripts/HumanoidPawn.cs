@@ -3,6 +3,30 @@ using UnityEngine;
 public class HumanoidPawn : Pawn
 {
     #region Fields
+    [Header("IK Weights, Left Arm")]
+
+    [SerializeField, Range(0, 1), Tooltip("The weight used for setting the left hand position for IK.")]
+    private float leftHandPosition_Weight = 1.0f;
+
+    [SerializeField, Range(0, 1), Tooltip("The weight used for setting the left hand rotation for IK.")]
+    private float leftHandRotation_Weight = 1.0f;
+
+    [SerializeField, Range(0, 1), Tooltip("The weight used for setting the left elbow hint for IK.")]
+    private float leftElbowHint_Weight = 1.0f;
+
+
+    [Header("IK Weights, Right Arm")]
+
+    [SerializeField, Range(0, 1), Tooltip("The weight used for setting the right hand position for IK.")]
+    private float rightHandPosition_Weight = 1.0f;
+
+    [SerializeField, Range(0, 1), Tooltip("The weight used for setting the right hand rotation for IK.")]
+    private float rightHandRotation_Weight = 1.0f;
+
+    [SerializeField, Range(0, 1), Tooltip("The weight used for setting the right elbow hint for IK.")]
+    private float rightElbowHint_Weight = 1.0f;
+
+
     [Header("Object & Component references")]
 
     // The CharacterData on this character.
@@ -37,11 +61,18 @@ public class HumanoidPawn : Pawn
         // If this weapon needs IK for the left hand, then do so.
         if (weapon.leftHandPoint)
         {
+            // Get a reference to Transform to save on finding it more than once.
+            Transform leftHand = weapon.leftHandPoint;
+
             // Set the IK position and rotation for left hand, with maximum weights.
-            animator.SetIKPosition(AvatarIKGoal.LeftHand, weapon.leftHandPoint.position);
-            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-            animator.SetIKRotation(AvatarIKGoal.LeftHand, weapon.leftHandPoint.rotation);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+            animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHand.position);
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, leftHandPosition_Weight);
+            animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHand.rotation);
+            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, leftHandRotation_Weight);
+
+            // Set the hint for the left elbow and the weight.
+            animator.SetIKHintPosition(AvatarIKHint.LeftElbow, weapon.leftElbowPoint.position);
+            animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, leftElbowHint_Weight);
         }
         // Else, no left hand needed.
         else
@@ -54,11 +85,18 @@ public class HumanoidPawn : Pawn
         // If this weapon needs IK for the right hand, then do so.
         if (weapon.rightHandPoint)
         {
+            // Get a reference to Transform to save on finding it more than once.
+            Transform rightHand = weapon.rightHandPoint;
+
             // Set the IK position and rotation for right hand, with maximum weights.
-            animator.SetIKPosition(AvatarIKGoal.RightHand, weapon.rightHandPoint.position);
-            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-            animator.SetIKRotation(AvatarIKGoal.RightHand, weapon.rightHandPoint.rotation);
-            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+            animator.SetIKPosition(AvatarIKGoal.RightHand, rightHand.position);
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, rightHandPosition_Weight);
+            animator.SetIKRotation(AvatarIKGoal.RightHand, rightHand.rotation);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, rightHandRotation_Weight);
+
+            // Set the hint for the right elbow and the weight.
+            animator.SetIKHintPosition(AvatarIKHint.RightElbow, weapon.rightElbowPoint.position);
+            animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, rightElbowHint_Weight);
         }
         // Else, no right hand needed.
         else

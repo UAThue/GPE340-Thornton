@@ -17,6 +17,21 @@ public class Gun : Weapon
 
     // Whether or not the gun can currently shoot.
     private bool canShoot = true;
+
+
+    [Header("Projectile Settings")]
+
+    [SerializeField, Tooltip("The Bullet prefab that this gun fires as a projectile.")]
+    private Projectile projectilePrefab;
+
+    [SerializeField, Tooltip("Transform of the location projectiles should spawn (the barrel).")]
+    private Transform barrel;
+
+    [SerializeField, Tooltip("The damage that each projectile will deal to Health objects they hit.")]
+    private float projectileDamage = 10.0f;
+
+    [SerializeField, Tooltip("The amount of force with which the projectile is propelled from the barrel.")]
+    private float muzzleVelocity = 1000.0f;
     #endregion Fields
 
 
@@ -86,29 +101,42 @@ public class Gun : Weapon
     // Instantiates a bullet.
     private void InstantiateBullet()
     {
-        // TODO: Instantiate bullet.
+        // Create a Projectile (bullet) at the barrel.
+        Projectile projectile = Instantiate
+            (
+                projectilePrefab,
+                barrel.position,
+                barrel.rotation
+            ) as Projectile;
+
+        // Assign the projectile its damage.
+        projectile.damage = projectileDamage;
+
+        // Add force to the bullet to make it "shoot" out of the barrel.
+        projectile.rb.AddRelativeForce
+            (
+                Vector3.forward * muzzleVelocity,
+                ForceMode.VelocityChange
+            );
     }
 
     // Prevents firing the gun for a set period of time.
     private IEnumerator CantFire()
-    {
-        // Track the time since last fired.
-        timeSinceFired += Time.deltaTime;
-
-        // If time passed has not yet reached the fire rate,
-        if (timeSinceFired < fireRate)
+    { 
+        // While time passed has not yet reached the fire rate,
+        while (timeSinceFired < fireRate)
         {
+            // Track the time since last fired.
+            timeSinceFired += Time.deltaTime;
             // then do nothing this frame.
             yield return null;
         }
-        // Else, enough time has passed.
-        else
-        {
-            // Reset the timer.
-            timeSinceFired = 0.0f;
-            // gun can now shoot.
-            canShoot = true;
-        }
+
+        // Once enough time has passed,
+        // Reset the timer.
+        timeSinceFired = 0.0f;
+        // The gun can now shoot.
+        canShoot = true;
     }
     #endregion Dev Methods
 }
