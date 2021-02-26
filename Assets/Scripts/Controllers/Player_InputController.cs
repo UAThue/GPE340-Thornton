@@ -3,8 +3,7 @@ using UnityEngine;
 // The input controller just takes input from the player, and tells the Pawn what that input was.
 // The Pawn is what actually controls the character using root motion.
 
-// The CharacterData and Pawn scripts are required.
-[RequireComponent(typeof(CharacterData))]
+// Theese scripts are required.
 [RequireComponent(typeof(Pawn))]
 
 public class Player_InputController : Controller

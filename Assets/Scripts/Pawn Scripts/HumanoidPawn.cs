@@ -24,7 +24,27 @@ public class HumanoidPawn : Pawn
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    //
+    public void OnAnimatorIK(int layerIndex)
+    {
+        //// TODO: Ifs from convas
+
+        //// If I have a weapon,
+        //if (weapon != null)
+        //{
+        //    // then do IK movements.
+        //    // If the weapon has a left-hand point,
+        //}
+        //// Set position for the left and right hands.
+        //animator.SetIKPosition(AvatarIKGoal.LeftHand, weapon.leftHandPoint.position);
+        //animator.SetIKPosition(AvatarIKGoal.RightHand, weapon.rightHandPoint.position);
+
+        //// Set rotation for the hands.
+        //animator.SetIKRotation(AvatarIKGoal.LeftHand, weapon.leftHandPoint.rotation);
+        //animator.SetIKRotation(AvatarIKGoal.RightHand, weapon.rightHandPoint.rotation);
     }
     #endregion Unity Methods
 
@@ -81,20 +101,6 @@ public class HumanoidPawn : Pawn
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - tf.position);
         // Rotate towards that angle over time.
         tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, (turnSpeed * Time.deltaTime));
-    }
-
-    //
-    public void OnAnimatorIK(int layerIndex)
-    {
-        // TODO: Ifs from convas
-
-        // Set position for the left and right hands.
-        animator.SetIKPosition(AvatarIKGoal.LeftHand, weapon.leftHandPoint.position);
-        animator.SetIKPosition(AvatarIKGoal.RightHand, weapon.rightHandPoint.position);
-
-        // Set rotation for the hands.
-        animator.SetIKRotation(AvatarIKGoal.LeftHand, weapon.leftHandPoint.rotation);
-        animator.SetIKRotation(AvatarIKGoal.RightHand, weapon.rightHandPoint.rotation);
     }
     #endregion Dev Methods
 }

@@ -4,6 +4,10 @@ using UnityEngine.UI;
 // The CharacterData holds data about the character that can be accessed from other scripts.
 // This way, all data specific to this character is in one spot.
 
+// Theese scripts are required.
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Player_InputController))]
+
 public class CharacterData : MonoBehaviour
 {
     #region Fields
@@ -41,14 +45,20 @@ public class CharacterData : MonoBehaviour
     // Whether or not the character is currently sprinting.
     public bool isSprinting = false;
 
-    // The Stamins bar (slider) on the HUD.
-    [SerializeField] private Slider staminaBar;
-
 
     [Header("Object & Component references")]
 
     // The OverheadCamera component on the camera that is following this character.
     public OverheadCamera overheadCam;
+
+    [SerializeField, Tooltip("The Slider for the Stamina Bar on the UI HUD.")]
+    private Slider staminaBar;
+
+    [SerializeField, Tooltip("The Slider for the Health Bar on the UI HUD.")]
+    private Slider healthBar;
+
+    [Tooltip("The Health script attached to this character.")]
+    public Health health;
     #endregion Fields
 
     #region Unity Methods
@@ -57,6 +67,12 @@ public class CharacterData : MonoBehaviour
     {
         // Initialize currentStamina to equal maxStamina.
         currentStamina = maxStamina;
+
+        // If any of these are not set up, try to set them up.
+        if (health == null)
+        {
+            health = GetComponent<Health>();
+        }
     }
 
     // Update is called once per frame
@@ -151,6 +167,12 @@ public class CharacterData : MonoBehaviour
     private void UpdateStaminaBar()
     {
         staminaBar.value = currentStamina / maxStamina;
+    }
+
+    // Updates the health bar on the HUD. Called from the Health script when health changes.
+    public void UpdateHealthBar(float healthPercent)
+    {
+        healthBar.value = healthPercent;
     }
 
     // Called to get the current stamina.

@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 52042656804934711}
   - component: {fileID: 6221943138877656653}
   - component: {fileID: 8726527030737258746}
+  - component: {fileID: 3443558704869128458}
   - component: {fileID: 518580227752588249}
   - component: {fileID: 2119960344774479565}
   - component: {fileID: 1231634880198926152}
@@ -265,9 +266,33 @@ MonoBehaviour:
   staminaRecoveryDelay: 1
   staminaRecoveryRate: 20
   isSprinting: 0
-  staminaBar: {fileID: 0}
-  weapon: {fileID: 0}
   overheadCam: {fileID: 0}
+  staminaBar: {fileID: 0}
+  healthBar: {fileID: 0}
+--- !u!114 &3443558704869128458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861089307991395981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db93bfc78c5caf04786ec48daa6ee1eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  initialHealth: 100
+  onDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  onDie:
+    m_PersistentCalls:
+      m_Calls: []
+  data: {fileID: 0}
 --- !u!114 &518580227752588249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprintKey: 304
   walkKey: 308
+  attackKey: 323
   data: {fileID: 8726527030737258746}
   tf: {fileID: 52042656804934711}
   pawn: {fileID: 0}
@@ -298,9 +324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3385b7846ca297f4db4dea54de356cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  tf: {fileID: 0}
-  data: {fileID: 0}
+  animator: {fileID: 6221943138877656653}
+  tf: {fileID: 52042656804934711}
+  weapon: {fileID: 0}
+  data: {fileID: 8726527030737258746}
 --- !u!136 &1231634880198926152
 CapsuleCollider:
   m_ObjectHideFlags: 0
