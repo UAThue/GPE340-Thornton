@@ -6,45 +6,67 @@ public class HumanoidPawn : Pawn
     [Header("Object & Component references")]
 
     // The CharacterData on this character.
-    [SerializeField] private CharacterData data;
+    [SerializeField] private PlayerData data;
     #endregion Fields
 
 
     #region Unity Methods
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         // If any of these are not set up, set them up.
         if (data == null)
         {
-            data = GetComponent<CharacterData>();
+            data = GetComponent<PlayerData>();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    //
+    // Moves the character's hands toward the weapon's hand IK points.
     public void OnAnimatorIK(int layerIndex)
     {
-        //// TODO: Ifs from convas
+        // Try to save a reference to the equipped weapon.
+        Weapon weapon = data.equippedWeapon;
+        // If no weapon is equipped,
+        if (weapon == null)
+        {
+            // then do nothing. Return.
+            return;
+        }
+        // Else, there is a weapon.
 
-        //// If I have a weapon,
-        //if (weapon != null)
-        //{
-        //    // then do IK movements.
-        //    // If the weapon has a left-hand point,
-        //}
-        //// Set position for the left and right hands.
-        //animator.SetIKPosition(AvatarIKGoal.LeftHand, weapon.leftHandPoint.position);
-        //animator.SetIKPosition(AvatarIKGoal.RightHand, weapon.rightHandPoint.position);
+        // If this weapon needs IK for the left hand, then do so.
+        if (weapon.leftHandPoint)
+        {
+            // Set the IK position and rotation for left hand, with maximum weights.
+            animator.SetIKPosition(AvatarIKGoal.LeftHand, weapon.leftHandPoint.position);
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            animator.SetIKRotation(AvatarIKGoal.LeftHand, weapon.leftHandPoint.rotation);
+            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+        }
+        // Else, no left hand needed.
+        else
+        {
+            // Set the weights to 0.
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
+            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+        }
 
-        //// Set rotation for the hands.
-        //animator.SetIKRotation(AvatarIKGoal.LeftHand, weapon.leftHandPoint.rotation);
-        //animator.SetIKRotation(AvatarIKGoal.RightHand, weapon.rightHandPoint.rotation);
+        // If this weapon needs IK for the right hand, then do so.
+        if (weapon.rightHandPoint)
+        {
+            // Set the IK position and rotation for right hand, with maximum weights.
+            animator.SetIKPosition(AvatarIKGoal.RightHand, weapon.rightHandPoint.position);
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            animator.SetIKRotation(AvatarIKGoal.RightHand, weapon.rightHandPoint.rotation);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+        }
+        // Else, no right hand needed.
+        else
+        {
+            // Set the weights to 0.
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+        }
     }
     #endregion Unity Methods
 

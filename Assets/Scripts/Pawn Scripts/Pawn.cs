@@ -14,11 +14,6 @@ public abstract class Pawn : MonoBehaviour
 
     // The transform component on this character.
     [SerializeField] protected Transform tf;
-
-
-    [Header("Equipment")]
-    // The currently equipped weapon.
-    public Weapon weapon;
     #endregion Fields
 
     #region Unity Methods

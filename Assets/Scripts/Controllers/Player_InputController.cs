@@ -24,7 +24,7 @@ public class Player_InputController : Controller
     [Header("Object/Component references")]
 
     // References the CharacterData on this character, which holds all character-specific data.
-    [SerializeField] private CharacterData data;
+    [SerializeField] private PlayerData data;
 
     // The transform component on this player.
     [SerializeField] private Transform tf;
@@ -44,7 +44,7 @@ public class Player_InputController : Controller
 
         if (data == null)
         {
-            data = GetComponent<CharacterData>();
+            data = GetComponent<PlayerData>();
         }
 
         if (tf == null)
@@ -138,17 +138,21 @@ public class Player_InputController : Controller
     // Abstracts all combat input gathering code to keep Update clean.
     private void GetCombatInput()
     {
-        // If the player just pressed the fire key,
-        if (Input.GetKeyDown(attackKey))
+        // If the player has a weapon,
+        if (data.equippedWeapon != null)
         {
-            // then tell the pawn's weapon to start the attack.
-            pawn.weapon.AttackStart();
-        }
-        // Else, if they just let go of that key,
-        else if (Input.GetKeyUp(attackKey))
-        {
-            // then tell the pawn's weapon to stop the attack.
-            pawn.weapon.AttackEnd();
+            // and if the player just pressed the fire key,
+            if (Input.GetKeyDown(attackKey))
+            {
+                // then tell the player's weapon to start the attack.
+                data.equippedWeapon.AttackStart();
+            }
+            // Else, if they just let go of that key,
+            else if (Input.GetKeyUp(attackKey))
+            {
+                // then tell the player's weapon to stop the attack.
+                data.equippedWeapon.AttackEnd();
+            }
         }
     }
     #endregion Dev Methods

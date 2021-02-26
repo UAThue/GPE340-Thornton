@@ -26,7 +26,7 @@ public abstract class Pickup : MonoBehaviour
     [Header("Object & Component references")]
 
     [SerializeField, Tooltip("The Transform of this gameObject.")]
-    private Transform tf;
+    protected Transform tf;
     #endregion Fields
 
 
@@ -60,8 +60,8 @@ public abstract class Pickup : MonoBehaviour
     // Called automatically when another collider enters a trigger collider on this gameObject.
     private void OnTriggerEnter(Collider other)
     {
-        // Attempt to get a CharacterData from the collision object.
-        CharacterData player = other.gameObject.GetComponent<CharacterData>();
+        // Attempt to get a PlayerData from the collision object.
+        PlayerData player = other.gameObject.GetComponent<PlayerData>();
 
         // If the collision was with a player,
         if (player != null)
@@ -75,7 +75,7 @@ public abstract class Pickup : MonoBehaviour
 
     #region Dev Methods
     // Call when the item is picked up. Base version runs last.
-    public virtual void OnPickup(CharacterData player)
+    public virtual void OnPickup(PlayerData player)
     {
         // Destroy the pickup object.
         Destroy(gameObject);

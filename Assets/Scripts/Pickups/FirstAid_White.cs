@@ -27,7 +27,7 @@ public class FirstAid_White : Pickup
 
     #region Dev Methods
     // Called when a player triggers the collider.
-    public override void OnPickup(CharacterData player)
+    public override void OnPickup(PlayerData player)
     {
         // Heal the player.
         player.health.Heal(healValue);

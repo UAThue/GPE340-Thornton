@@ -20,6 +20,12 @@ public abstract class Weapon : MonoBehaviour
 
     [Tooltip("The Transform of the right hand of the character wielding this weapon.")]
     public Transform rightHandPoint;
+
+
+    [Header("Animation Assistance")]
+
+    [Tooltip("The WeaponStance that is appropriate for holding this weapon.")]
+    public WeaponAgent.WeaponStance weaponStance = WeaponAgent.WeaponStance.Unarmed;
     #endregion Fields
 
 

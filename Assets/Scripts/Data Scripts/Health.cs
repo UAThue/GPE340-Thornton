@@ -28,8 +28,8 @@ public class Health : MonoBehaviour
 
     [Header("Object & Component references")]
 
-    [SerializeField, Tooltip("The CharacterData on the character this is attached to, if appropriate.")]
-    private CharacterData data;
+    [SerializeField, Tooltip("The PlayerData on the character this is attached to, if appropriate.")]
+    private PlayerData data;
     #endregion Fields
 
 
@@ -43,8 +43,8 @@ public class Health : MonoBehaviour
         // If any of these are null, try to set them up.
         if (data == null)
         {
-            // This will not work if the Health is on an object without a CharacterData on it. That's OK.
-            data = GetComponent<CharacterData>();
+            // This will not work if the Health is on an object without a PlayerData on it. That's OK.
+            data = GetComponent<PlayerData>();
         }
     }
     #endregion Unity Methods
@@ -140,7 +140,7 @@ public class Health : MonoBehaviour
         // Ensure currentHealth does not go above maxHealth.
         currentHealth = Mathf.Min(newHealth, maxHealth);
 
-        // Tell the CharacterData to update the health bar, if it has a CharaccterData.
+        // Tell the PlayerData to update the health bar, if it has a CharaccterData.
         if (data != null)
         {
             data.UpdateHealthBar(GetHealthPercentage());
