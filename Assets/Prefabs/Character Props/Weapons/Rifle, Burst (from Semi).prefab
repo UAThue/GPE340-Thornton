@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5939902725027826581, guid: 42965f096b610684d941f38915bdca33, type: 3}
+      propertyPath: burstsPerMinute
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939902725027826581, guid: 42965f096b610684d941f38915bdca33, type: 3}
       propertyPath: onAttackStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: FireBurst
       objectReference: {fileID: 0}

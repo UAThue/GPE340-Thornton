@@ -120,7 +120,7 @@ MonoBehaviour:
   rotationSpeed: 5
   tf: {fileID: 3154650363294479546}
   limitedFireRate: 1
-  roundsPerMinute: 30
+  roundsPerMinute: 42
   roundsPerBurst: 3
   burstTime: 0.25
   burstsPerMinute: 15

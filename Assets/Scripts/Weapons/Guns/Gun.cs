@@ -160,7 +160,6 @@ public class Gun : Weapon
         // Once, for each round that should be fired per burst,
         for (int i = 0; i < roundsPerBurst; i++)
         {
-            print("DoBurst() for loop. i: " + i);
             // call a delayed shot, with burstSpeed between each round.
             StartCoroutine(DelayedShot(burstSpeed * i));
         }
