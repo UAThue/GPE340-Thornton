@@ -98,7 +98,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6702082510223376680}
         m_TargetAssemblyTypeName: Gun, Assembly-CSharp
-        m_MethodName: FireBullet
+        m_MethodName: FireSingleBullet
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -121,6 +121,9 @@ MonoBehaviour:
   tf: {fileID: 3154650363294479546}
   limitedFireRate: 1
   roundsPerMinute: 30
+  roundsPerBurst: 3
+  burstTime: 0.25
+  burstsPerMinute: 15
   projectilePrefab: {fileID: 1445965691176257467, guid: 414fa50d22829de4c8c36bb2ee217fe8, type: 3}
   barrel: {fileID: 845212399634274036}
   projectileDamage: 14

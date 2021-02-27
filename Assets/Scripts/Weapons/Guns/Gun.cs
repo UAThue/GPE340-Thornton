@@ -4,22 +4,39 @@ using System.Collections;
 public class Gun : Weapon
 {
     #region Fields
-    [Header("Fire Rate")]
+    // Whether or not the gun can currently shoot.
+    private bool canShoot = true;
+
+    [Header("Fire Rate (Single shot)")]
 
     [SerializeField, Tooltip("If false, bullet shoots as fast as can pull the trigger.")]
     private bool limitedFireRate = false;
 
     [SerializeField, Tooltip("How many rounds gun can fire / second.")]
-    private float roundsPerMinute = 45;
+    private float roundsPerMinute = 45.0f;
 
-    // Holds the variable for roundsPerMinute calculated into roundsPerSecond. Calculated in Start.
-    private float roundsPerSecond;
+    // Seconds to fire each round. Calculated in Start (60 / roundsPerMinute).
+    private float fireRate_Single;
 
     // How long it has been (in seconds) since the last time the gun was fired.
     private float timeSinceFired = 0.0f;
 
-    // Whether or not the gun can currently shoot.
-    private bool canShoot = true;
+    [Header("FireRate (Burst Fire)")]
+
+    [SerializeField, Min(1), Tooltip("The number of rounds fired per burst.")]
+    private int roundsPerBurst = 3;
+
+    [SerializeField, Min(1), Tooltip("How many seconds it should take to complete the burst.")]
+    private float burstTime = 0.25f;
+
+    [SerializeField, Min(1), Tooltip("The number of bursts the weapon can fire in one minute.")]
+    private float burstsPerMinute = 15.0f;
+
+    // Seconds BETWEEN each burst, from start to start. Calculated in Start (60 / roundsPerMinute - burstTime).
+    private float fireRate_Burst;
+
+    // Seconds between each round DURING a burst. Calculated in Start (burstTime / roundsPerBurst).
+    private float burstSpeed;
 
 
     [Header("Projectile Settings")]
@@ -48,8 +65,14 @@ public class Gun : Weapon
     // Start is called before the first frame update
     public override void Start()
     {
-        // Calculate the roundsPerSecond one time and store that number.
-        roundsPerSecond = roundsPerMinute / 60;
+        // Calculate the number of seconds between each single shot from the roundsPerMinute.
+        fireRate_Single = 60 / roundsPerMinute;
+
+        // Calculate the number of seconds between each burch from the burstsPerMinute and burstTime.
+        fireRate_Burst = (60 / burstsPerMinute) - burstTime;
+
+        // Calculate the number of seconds between each round during a burst.
+        burstSpeed = burstTime / roundsPerBurst;
 
         base.Start();
     }
@@ -85,9 +108,9 @@ public class Gun : Weapon
         base.AttackEnd();
     }
 
-    // Fires a bullet from the gun, projecting it out from the muzzle.
+    // Fires a bullet from the gun, projecting it out from the barrel.
     // Potentially affected by fireRate.
-    public void FireBullet()
+    public void FireSingleBullet()
     {
         // If the gun is ready to shoot,
         if (canShoot)
@@ -101,11 +124,62 @@ public class Gun : Weapon
                 // then the gun is no longer ready to shoot until firRate seconds have passed.
                 canShoot = false;
                 // Start the timer until gun can shoot again.
-                StartCoroutine(nameof(CantFire));
+                StartCoroutine(CantFire(fireRate_Single));
             }
         }
-        // Else, the rlfe cannot shoot because it was fired too recently.
+        // Else, the rifle cannot shoot because it was fired too recently.
         // Do nothing.
+    }
+
+    // Fires a burst of rounds from the gun, projected from the barrel.
+    // Potentially affected by roundsPerMinute.
+    public void FireBurst()
+    {
+        // If the gun is ready to shoot,
+        if (canShoot)
+        {
+            // then do the burst fire.
+            DoBurst();
+
+            // If the fire rate is limited,
+            if (limitedFireRate)
+            {
+                // then the gun cannot shoot until enough time has passed.
+                canShoot = false;
+                // Start the delay until gun can shoot again.
+                StartCoroutine(CantFire(fireRate_Burst));
+            }
+        }
+        // Else, the rifle cannot shoot because it was fired too recently.
+        // Do nothing.
+    }
+
+    // Do the actual burst.
+    private void DoBurst()
+    {
+        // Once, for each round that should be fired per burst,
+        for (int i = 0; i < roundsPerBurst; i++)
+        {
+            print("DoBurst() for loop. i: " + i);
+            // call a delayed shot, with burstSpeed between each round.
+            StartCoroutine(DelayedShot(burstSpeed * i));
+        }
+    }
+
+    // Delay the firing of a bullet a certain amount of time, then fire.
+    private IEnumerator DelayedShot(float delay)
+    {
+        float timer = 0.0f;
+        // Until the delay has been satisfied,
+        while (timer < delay)
+        {
+            // track the time.
+            timer += Time.deltaTime;
+            // Yield.
+            yield return null;
+        }
+        // Once delay has been satisfied, instantiate a bullet.
+        InstantiateBullet();
     }
 
     // Instantiates a bullet.
@@ -149,10 +223,10 @@ public class Gun : Weapon
     }
 
     // Prevents firing the gun for a set period of time.
-    private IEnumerator CantFire()
+    private IEnumerator CantFire(float delay)
     { 
-        // Until enough time has passed for the gun to fire (based on roundsPerMinute),
-        while (timeSinceFired < roundsPerSecond)
+        // Until enough time has passed for the gun to fire,
+        while (timeSinceFired < delay)
         {
             // Track the time since last fired.
             timeSinceFired += Time.deltaTime;

@@ -2996,7 +2996,7 @@ PrefabInstance:
     - target: {fileID: 6763768700951764238, guid: bec43c8df84fd144782729179e7a1702, type: 3}
       propertyPath: weaponPickup
       value: 
-      objectReference: {fileID: 5939902725027826581, guid: 42965f096b610684d941f38915bdca33, type: 3}
+      objectReference: {fileID: 9054745475088651079, guid: 25e669ad4eed1f34ba0439acefca739a, type: 3}
     - target: {fileID: 6763768700951764239, guid: bec43c8df84fd144782729179e7a1702, type: 3}
       propertyPath: m_Name
       value: WeaponPickup
