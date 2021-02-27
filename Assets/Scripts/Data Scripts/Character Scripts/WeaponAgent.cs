@@ -75,6 +75,9 @@ public abstract class WeaponAgent : MonoBehaviour
     // Creates a weapon from the Weapon prefab passed in and equips it.
     public void EquipWeapon(Weapon weapon)
     {
+        // Unequip any currently equipped weapon.
+        UnequipWeapon();
+
         // Create the weapon as our equipped weapon.
         equippedWeapon = Instantiate(weapon) as Weapon;
 

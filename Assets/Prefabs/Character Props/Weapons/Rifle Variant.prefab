@@ -111,50 +111,6 @@ Transform:
   m_Father: {fileID: 8381518922634162895}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &5939902725027826581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8381518924072011831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 683b29997e28b3748a824d5f45984468, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onAttackStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5939902725027826581}
-        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
-        m_MethodName: FireBullet
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onAttackEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  leftHandPoint: {fileID: 8381518924368664560}
-  leftElbowPoint: {fileID: 7360230776022376598}
-  rightHandPoint: {fileID: 8381518922581424890}
-  rightElbowPoint: {fileID: 6850511277673155767}
-  weaponStance: 1
-  rotationTarget: {fileID: 0}
-  rotationSpeed: 5
-  tf: {fileID: 8381518924072011824}
-  limitedFireRate: 1
-  roundsPerMinute: 45
-  projectilePrefab: {fileID: 1445965691176257467, guid: 414fa50d22829de4c8c36bb2ee217fe8, type: 3}
-  barrel: {fileID: 4236556994015044782}
-  projectileDamage: 10
-  muzzleVelocity: 35
 --- !u!1 &6009668658839751628
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +244,52 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5939902725027826581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8381518924072011831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683b29997e28b3748a824d5f45984468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onAttackStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5939902725027826581}
+        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
+        m_MethodName: FireBullet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  leftHandPoint: {fileID: 8381518924368664560}
+  leftElbowPoint: {fileID: 7360230776022376598}
+  rightHandPoint: {fileID: 8381518922581424890}
+  rightElbowPoint: {fileID: 6850511277673155767}
+  weaponStance: 1
+  rotationTarget: {fileID: 0}
+  rotationSpeed: 5
+  tf: {fileID: 8381518924072011824}
+  limitedFireRate: 1
+  roundsPerMinute: 45
+  projectilePrefab: {fileID: 1445965691176257467, guid: 414fa50d22829de4c8c36bb2ee217fe8, type: 3}
+  barrel: {fileID: 4236556994015044782}
+  projectileDamage: 10
+  muzzleVelocity: 35
+  hasSpread: 1
+  spread: 2.5
 --- !u!1001 &3311453872708575076
 PrefabInstance:
   m_ObjectHideFlags: 0

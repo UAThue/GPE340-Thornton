@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
     private float initialHealth = 100;
 
     // The object's current health. Initialized based on max and initial healths.
-    private float currentHealth;
+    public float currentHealth;
 
 
     [Header("Events")]
@@ -97,6 +97,11 @@ public class Health : MonoBehaviour
         Damage(maxHealth);
     }
 
+    // Destroys the gameObject. Events cannot destroy without a function to call, only set inactive.
+    public void DestroyObject()
+    {
+        Destroy(gameObject);
+    }
 
     // Called to heal the object's health by the specified amount.
     public void Heal(float healing)

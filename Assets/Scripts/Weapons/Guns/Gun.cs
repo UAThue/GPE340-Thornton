@@ -35,6 +35,12 @@ public class Gun : Weapon
 
     [SerializeField, Tooltip("The amount of force with which the projectile is propelled from the barrel.")]
     private float muzzleVelocity = 1000.0f;
+
+    [SerializeField, Tooltip("Whether or not the gun should have bullet spread.")]
+    private bool hasSpread = true;
+
+    [SerializeField, Tooltip("The amount of variance in initial trajectory of the bullets.")]
+    private float spread = 3.0f;
     #endregion Fields
 
 
@@ -110,7 +116,7 @@ public class Gun : Weapon
             (
                 projectilePrefab,
                 barrel.position,
-                barrel.rotation
+                GetTrajectory()
             ) as Projectile;
 
         // Assign the projectile its damage. Match its layer to the gun's layer.
@@ -123,6 +129,23 @@ public class Gun : Weapon
                 Vector3.forward * muzzleVelocity,
                 ForceMode.VelocityChange
             );
+    }
+
+    // Calculates and returns the bullet's initial trajectory.
+    private Quaternion GetTrajectory()
+    {
+        // If this weapon uses bullet spread,
+        if (hasSpread)
+        {
+            // then include spread in the calculation.
+            return barrel.rotation * Quaternion.Euler(Random.onUnitSphere * spread);
+        }
+        // Else, no dot use the spread.
+        else
+        {
+            return barrel.rotation;
+
+        }
     }
 
     // Prevents firing the gun for a set period of time.
