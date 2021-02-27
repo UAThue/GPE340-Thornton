@@ -9,8 +9,11 @@ public class Gun : Weapon
     [SerializeField, Tooltip("If false, bullet shoots as fast as can pull the trigger.")]
     private bool limitedFireRate = false;
 
-    [SerializeField, Tooltip("How often the gun can fire / second.")]
-    private float fireRate = 0.3f;
+    [SerializeField, Tooltip("How many rounds gun can fire / second.")]
+    private float roundsPerMinute = 45;
+
+    // Holds the variable for roundsPerMinute calculated into roundsPerSecond. Calculated in Start.
+    private float roundsPerSecond;
 
     // How long it has been (in seconds) since the last time the gun was fired.
     private float timeSinceFired = 0.0f;
@@ -39,7 +42,8 @@ public class Gun : Weapon
     // Start is called before the first frame update
     public override void Start()
     {
-
+        // Calculate the roundsPerSecond one time and store that number.
+        roundsPerSecond = roundsPerMinute / 60;
 
         base.Start();
     }
@@ -109,8 +113,9 @@ public class Gun : Weapon
                 barrel.rotation
             ) as Projectile;
 
-        // Assign the projectile its damage.
+        // Assign the projectile its damage. Match its layer to the gun's layer.
         projectile.damage = projectileDamage;
+        projectile.gameObject.layer = gameObject.layer;
 
         // Add force to the bullet to make it "shoot" out of the barrel.
         projectile.rb.AddRelativeForce
@@ -123,8 +128,8 @@ public class Gun : Weapon
     // Prevents firing the gun for a set period of time.
     private IEnumerator CantFire()
     { 
-        // While time passed has not yet reached the fire rate,
-        while (timeSinceFired < fireRate)
+        // Until enough time has passed for the gun to fire (based on roundsPerMinute),
+        while (timeSinceFired < roundsPerSecond)
         {
             // Track the time since last fired.
             timeSinceFired += Time.deltaTime;

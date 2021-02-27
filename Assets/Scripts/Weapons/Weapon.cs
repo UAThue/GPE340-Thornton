@@ -36,8 +36,8 @@ public abstract class Weapon : MonoBehaviour
 
     [Header("Match Rotation To Target Transform")]
 
-    [SerializeField, Tooltip("The Transform to match rotations with. Leave empty for to rotation.")]
-    private Transform rotationTarget;
+    [Tooltip("The Transform to match rotations with. Leave empty for to rotation.")]
+    public Transform rotationTarget;
 
     [SerializeField, Tooltip("The speed at which the rotation will occur.")]
     private float rotationSpeed = 5.0f;
@@ -63,7 +63,8 @@ public abstract class Weapon : MonoBehaviour
         // If the rotationTarget isn't null, ensure the weapon is matching the rotation.
         if (rotationTarget != null)
         {
-            MatchTargetRotation();
+            // This break everything for some reason... It looks great without it. Maybe don't need it?
+            //MatchTargetRotation();
         }
     }
     #endregion Unity Methods

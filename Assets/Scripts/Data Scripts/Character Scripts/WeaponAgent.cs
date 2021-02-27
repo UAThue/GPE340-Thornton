@@ -29,6 +29,9 @@ public abstract class WeaponAgent : MonoBehaviour
     [SerializeField, Tooltip("The animator on this character.")]
     private Animator animator;
 
+    [SerializeField, Tooltip("The Transform of this gameObject.")]
+    protected Transform tf;
+
         #region Enum Definitions
     // Enum for weapon types, to help tell animator which weapon stance to use.
     public enum WeaponStance
@@ -52,6 +55,11 @@ public abstract class WeaponAgent : MonoBehaviour
         if (animator == null)
         {
             animator = GetComponent<Animator>();
+        }
+
+        if (tf == null)
+        {
+            tf = transform;
         }
     }
 
@@ -79,6 +87,12 @@ public abstract class WeaponAgent : MonoBehaviour
 
         // Tell the animator which weapon stance to use.
         animator.SetInteger(stanceParameter, (int)equippedWeapon.weaponStance);
+
+        // Set the layer of the weapon to that of this character.
+        equippedWeapon.gameObject.layer = gameObject.layer;
+
+        // Tell the weapon which Transform to match rotations with.
+        equippedWeapon.rotationTarget = tf;
     }
 
     // Unequips the weapon, destroying it.
