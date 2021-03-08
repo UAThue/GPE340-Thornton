@@ -3,9 +3,6 @@ using UnityEngine;
 // The input controller just takes input from the player, and tells the Pawn what that input was.
 // The Pawn is what actually controls the character using root motion.
 
-// Theese scripts are required.
-[RequireComponent(typeof(Pawn))]
-
 public class Player_InputController : Controller
 {
     #region Fields
@@ -29,16 +26,13 @@ public class Player_InputController : Controller
     // The transform component on this player.
     [SerializeField] private Transform tf;
 
-    // The Pawn that actually controls motion for this character via the animator and root motion.
-    [SerializeField] private Pawn pawn;
-
     // The camera that will follow this player.
     [SerializeField] private Camera cam;
     #endregion Fields
 
     #region Unity Methods
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
         // If any of these variables are not yet set up, set them up.
 
@@ -61,16 +55,20 @@ public class Player_InputController : Controller
         {
             cam = Camera.main;
         }
+
+        base.Start();
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         // Get all movement input and act appropriately.
         GetMovementInput();
 
         // Get all input relating to combat actions.
         GetCombatInput();
+
+        base.Update();
     }
     #endregion Unity Methods
 
@@ -98,14 +96,11 @@ public class Player_InputController : Controller
     }
 
     // Called every frame to move the player based on their input.
+    // NOTE: No longer inverts here! Inverting is done in HumanoidPawn's Move().
     private Vector3 GetVelocity()
     {
         // Create a new Vector3 to hold the user's current input.
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        // Normalize the input to maximum of 1.
-        input = Vector3.ClampMagnitude(input, 1f);
-        // Translate the input to local from world for the animator.
-        input = tf.InverseTransformDirection(input);
 
         // Return the input.
         return input;

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-// WeaponAgent is the parent for both PlayerData and EnemyData, so both can use weapons.
+/* WeaponAgent is the parent for both PlayerData and EnemyData, so both can use weapons.
+ * Therefore, WeaponAgent holds a lot of data variables that both players and enemies share.*/
 
 public abstract class WeaponAgent : MonoBehaviour
 {
@@ -15,10 +16,28 @@ public abstract class WeaponAgent : MonoBehaviour
     //private WeaponStance weaponStance = WeaponStance.Unarmed;
 
 
+    [Header("Speeds")]
+
+    // The maximum movement speed of this character.
+    [Tooltip("Max movement speed of this character.")]
+    public float maxMoveSpeed = 8.0f;
+
+    // The speed at which this character can turn their body.
+    [Tooltip("Speed that this character can turn.")]
+    public float turnSpeed = 90.0f;
+
+
     [Header("Animation Assistance")]
 
     [SerializeField, Tooltip("The name (as a string) of the anim int used for weapon stances.")]
     private string stanceParameter = "WeaponStance";
+
+
+    // Only applicable for Players, but this way is accessible for the HumanoidPawn.
+    [Header("Stamina")]
+
+    // Whether or not the Player is currently sprinting.
+    public bool isSprinting = false;
 
 
     [Header("Object & Component References")]
@@ -32,7 +51,12 @@ public abstract class WeaponAgent : MonoBehaviour
     [SerializeField, Tooltip("The Transform of this gameObject.")]
     protected Transform tf;
 
-        #region Enum Definitions
+    // The OverheadCamera component on the camera that is following this Player.
+    // Only applicable for Players, but this way is accessible for WeaponAgent typed vars (for HumanoidPawn).
+    [Tooltip("Only applicable for Players, but accessible through WeaponAgent (base).")]
+    public OverheadCamera overheadCam;
+
+    #region Enum Definitions
     // Enum for weapon types, to help tell animator which weapon stance to use.
     public enum WeaponStance
     {
@@ -111,6 +135,14 @@ public abstract class WeaponAgent : MonoBehaviour
             // Tell the animator to show characcter as unarmed.
             animator.SetInteger(stanceParameter, (int)WeaponStance.Unarmed);
         }
+    }
+
+    // Overridden by PlayerData.
+    public virtual bool CanSprint()
+    {
+        // This should not be called at all. If it is, there is a problem. Log the error and return false.
+        Debug.LogError("ERROR: CanSprint() should NOT be called on WeaponAgent superclass.");
+        return false;
     }
     #endregion Dev Methods
 }
