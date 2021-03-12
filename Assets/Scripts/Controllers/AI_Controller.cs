@@ -72,7 +72,6 @@ public class AI_Controller : Controller
         // Else, the enemy is not aimed well enough.
         else
         {
-            Debug.Log("Enemy can't attack.");
             data.equippedWeapon.AttackEnd();
         }
 
