@@ -45,9 +45,25 @@ public class PlayerData : WeaponAgent
     // The player must have Health.
     [Tooltip("The Health script attached to this character.")]
     public Health health;
+
+    [SerializeField, Tooltip("The Weapon the player starts with. Leave blank to start unarmed.")]
+    private Weapon defaultWeapon;
     #endregion Fields
 
     #region Unity Methods
+    // Called immediately when the gameObject is instantiated.
+    public override void Awake()
+    {
+        base.Awake();
+
+        // If there is a default weapon assigned,
+        if (defaultWeapon != null)
+        {
+            // then equip that weapon.
+            EquipWeapon(defaultWeapon);
+        }
+    }
+
     // Start is called before the first frame update
     public override void Start()
     {

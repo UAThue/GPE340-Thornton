@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    accuratePlacement: 1
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -2973,7 +2973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9013583207500427505, guid: 58fe3a6db7f82cc489315fcf9b353432, type: 3}
       propertyPath: m_Speed
-      value: 0.8
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 9013583207500427505, guid: 58fe3a6db7f82cc489315fcf9b353432, type: 3}
       propertyPath: m_StoppingDistance

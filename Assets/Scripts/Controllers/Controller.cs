@@ -8,6 +8,9 @@ public abstract class Controller : MonoBehaviour
     #region Fields
     [Header("Object & Component References")]
 
+    [SerializeField, Tooltip("The Transform on this gameObject.")]
+    protected Transform tf;
+
     [Tooltip("The Pawn on the Pawn's gameObject.")]
     protected Pawn pawn;
 
@@ -17,10 +20,15 @@ public abstract class Controller : MonoBehaviour
 
 
     #region Unity Methods
-    // Start is called before the first frame update
-    public virtual void Start()
+    // Called immediately after being instantiated.
+    protected virtual void Awake()
     {
         // If any of these are null, try to set them up.
+        if (tf == null)
+        {
+            tf = transform;
+        }
+
         if (pawn == null)
         {
             pawn = GetComponent<Pawn>();
@@ -31,6 +39,11 @@ public abstract class Controller : MonoBehaviour
             // Get the animator from the pawn.
             anim = pawn.GetComponent<Animator>();
         }
+    }
+    // Start is called before the first frame update
+    public virtual void Start()
+    {
+        
     }
 
     // Update is called once per frame

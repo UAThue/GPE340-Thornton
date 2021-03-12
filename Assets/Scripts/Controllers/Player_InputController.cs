@@ -23,19 +23,17 @@ public class Player_InputController : Controller
     // References the CharacterData on this character, which holds all character-specific data.
     [SerializeField] private PlayerData data;
 
-    // The transform component on this player.
-    [SerializeField] private Transform tf;
-
     // The camera that will follow this player.
     [SerializeField] private Camera cam;
     #endregion Fields
 
     #region Unity Methods
-    // Start is called before the first frame update
-    public override void Start()
+    // Called immeidately after being instantiated.
+    protected override void Awake()
     {
-        // If any of these variables are not yet set up, set them up.
+        base.Awake();
 
+        // If any of these variables are not yet set up, set them up.
         if (data == null)
         {
             data = GetComponent<PlayerData>();
@@ -55,6 +53,12 @@ public class Player_InputController : Controller
         {
             cam = Camera.main;
         }
+    }
+
+    // Start is called before the first frame update
+    public override void Start()
+    {
+        
 
         base.Start();
     }

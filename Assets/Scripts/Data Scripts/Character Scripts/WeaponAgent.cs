@@ -64,14 +64,17 @@ public abstract class WeaponAgent : MonoBehaviour
         Rifle = 1,
         Handgun = 2
     }
-        #endregion Enum Definitions
+    #endregion Enum Definitions
     #endregion Fields
 
 
-
-
-
     #region Unity Methods
+    // Called immediately when the gameObject is instantiated.
+    public virtual void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     public virtual void Start()
     {
