@@ -40,9 +40,11 @@ public class HumanoidPawn : Pawn
 
 
     #region Unity Methods
-    // Start is called before the first frame update
-    public override void Start()
+    // Called immediately after being instantiated.
+    protected override void Awake()
     {
+        base.Awake();
+
         // If any of these are not set up, set them up.
         if (data == null)
         {
@@ -55,6 +57,12 @@ public class HumanoidPawn : Pawn
             // set isPlayer to true.
             isPlayer = true;
         }
+    }
+
+    // Start is called before the first frame update
+    public override void Start()
+    {
+        
 
         base.Start();
     }

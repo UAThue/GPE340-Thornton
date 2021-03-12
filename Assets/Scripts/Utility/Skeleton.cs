@@ -10,10 +10,16 @@ public class Skeleton : MonoBehaviour
 
 
     #region Unity Methods
+    // Called immediately after being instantiated.
+    private void Awake()
+    {
+        // If any of these are null, try to set them up.
+    }
+
     // Start is called before the first frame update
     public void Start()
     {
-        // If any of these are null, try to set them up.
+        
     }
 
     // Update is called once per frame

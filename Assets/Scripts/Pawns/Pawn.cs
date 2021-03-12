@@ -17,8 +17,8 @@ public abstract class Pawn : MonoBehaviour
     #endregion Fields
 
     #region Unity Methods
-    // Start is called before the first frame update
-    public virtual void Start()
+    // Called immediately after being instantiated.
+    protected virtual void Awake()
     {
         // If any of these are not set up, set them up.
         if (animator == null)
@@ -30,6 +30,12 @@ public abstract class Pawn : MonoBehaviour
         {
             tf = transform;
         }
+    }
+
+    // Start is called before the first frame update
+    public virtual void Start()
+    {
+        
     }
 
     // Update is called once per frame

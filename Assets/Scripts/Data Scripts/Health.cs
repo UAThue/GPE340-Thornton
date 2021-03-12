@@ -18,12 +18,12 @@ public class Health : MonoBehaviour
 
     [Header("Events")]
 
-    [SerializeField, Tooltip("Raised every time the object is Damaged")]
-    private UnityEvent onDamage;
-    [SerializeField, Tooltip("Raised every time the object is healed")]
-    private UnityEvent onHeal;
-    [SerializeField, Tooltip("Raised once when the object's health reaches 0")]
-    private UnityEvent onDie;
+    [Tooltip("Raised every time the object is Damaged")]
+    public UnityEvent onDamage;
+    [Tooltip("Raised every time the object is healed")]
+    public UnityEvent onHeal;
+    [Tooltip("Raised once when the object's health reaches 0")]
+    public UnityEvent onDie;
 
 
     [Header("Object & Component references")]
