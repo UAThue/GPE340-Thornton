@@ -18,7 +18,7 @@ public abstract class Pawn : MonoBehaviour
 
     #region Unity Methods
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         // If any of these are not set up, set them up.
         if (animator == null)
@@ -33,14 +33,14 @@ public abstract class Pawn : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         
     }
     #endregion Unity Methods
 
     #region Dev Methods
-    public virtual void Move(Vector3 direction, float speed, bool sprintKeyDown, bool walkKeyDown)
+    public virtual void Move(Vector3 direction, float speed, bool sprintKeyDown = false, bool walkKeyDown = false)
     {
 
     }
