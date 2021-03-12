@@ -198,5 +198,36 @@ public class HumanoidPawn : Pawn
         // Rotate towards that angle over time.
         tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, (turnSpeed * Time.deltaTime));
     }
+
+    // Toggle Ragdoll effect. Pass is true to turn Ragdoll on, false to turn Ragdoll off.
+    public void ToggleRagdoll(bool turnOn)
+    {
+        int i;
+
+        // Get reference to ALL Rigidbodies on gameObject and its children.
+        Rigidbody[] childRBs = GetComponentsInChildren<Rigidbody>();
+        // Iterate through that array and toggle them all.
+        for (i = 0; i < childRBs.Length; i++)
+        {
+            childRBs[i].isKinematic = !turnOn;
+        }
+
+        // Toggle the mainRB.
+        data.mainRB.isKinematic = turnOn;
+
+        // Get reference to ALL colliders on gameObject and its children.
+        Collider[] childColls = GetComponentsInChildren<Collider>();
+        // Iterate through that array and toggle them all.
+        for (i = 0; i < childColls.Length; i++)
+        {
+            childColls[i].enabled = turnOn;
+        }
+
+        // Toggle the mainColl.
+        data.mainColl.enabled = !turnOn;
+
+        // Toggle the animator.
+        data.animator.enabled = !turnOn;
+    }
     #endregion Dev Methods
 }
