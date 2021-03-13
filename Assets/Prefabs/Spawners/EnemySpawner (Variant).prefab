@@ -55,9 +55,17 @@ PrefabInstance:
       propertyPath: spawnPrefab
       value: 
       objectReference: {fileID: 6522385557209418539, guid: 58fe3a6db7f82cc489315fcf9b353432, type: 3}
+    - target: {fileID: 7061921425204140149, guid: be07f13c081022342a343cd36c386568, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061921425204140149, guid: be07f13c081022342a343cd36c386568, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 6522385557209418539, guid: 58fe3a6db7f82cc489315fcf9b353432, type: 3}
     - target: {fileID: 8489627580823765379, guid: be07f13c081022342a343cd36c386568, type: 3}
       propertyPath: m_Name
-      value: EnemySpawner
+      value: EnemySpawner (Variant)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be07f13c081022342a343cd36c386568, type: 3}

@@ -435,7 +435,7 @@ MonoBehaviour:
   staminaBar: {fileID: 0}
   healthBar: {fileID: 0}
   health: {fileID: 3443558704869128458}
-  defaultWeapon: {fileID: 0}
+  defaultWeapon: {fileID: 6702082510223376680, guid: 84a5df77d244f2848b3c0d5bf2670f48, type: 3}
 --- !u!114 &3443558704869128458
 MonoBehaviour:
   m_ObjectHideFlags: 0
