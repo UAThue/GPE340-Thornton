@@ -57,7 +57,7 @@ public class Gun : Weapon
     private bool hasSpread = true;
 
     [SerializeField, Tooltip("The amount of variance in initial trajectory of the bullets.")]
-    private float spread = 3.0f;
+    private float spread = 1.2f;
     #endregion Fields
 
 

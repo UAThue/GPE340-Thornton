@@ -34,6 +34,9 @@ public abstract class Pickup : MonoBehaviour
     // Called as soon as the object is instantiated.
     public void Awake()
     {
+        // Set the pickup to the Player layer so only the Player can interact with it.
+        gameObject.layer = LayerMask.NameToLayer("Pickups");
+
         // If the pickup is set to decay over time, call a delayed Destroy.
         if (willDecay)
         {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6763768700951764238}
   - component: {fileID: 6966246061543850563}
   m_Layer: 0
-  m_Name: WeaponPickup
+  m_Name: WeaponPickupBase
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
   willDecay: 1
   lifespan: 60
   tf: {fileID: 6763768700951764273}
-  weaponPickup: {fileID: 5939902725027826581, guid: 42965f096b610684d941f38915bdca33, type: 3}
+  weaponPickup: {fileID: 0}
 --- !u!65 &6966246061543850563
 BoxCollider:
   m_ObjectHideFlags: 0

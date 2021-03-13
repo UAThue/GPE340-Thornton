@@ -279,6 +279,8 @@ MonoBehaviour:
   rightHandPoint: {fileID: 8381518922581424890}
   rightElbowPoint: {fileID: 6850511277673155767}
   weaponStance: 1
+  AttackAngle: 5
+  effectiveRange: 40
   rotationTarget: {fileID: 0}
   rotationSpeed: 5
   tf: {fileID: 8381518924072011824}
@@ -292,7 +294,7 @@ MonoBehaviour:
   projectileDamage: 10
   muzzleVelocity: 35
   hasSpread: 1
-  spread: 2.5
+  spread: 1
 --- !u!1001 &3311453872708575076
 PrefabInstance:
   m_ObjectHideFlags: 0

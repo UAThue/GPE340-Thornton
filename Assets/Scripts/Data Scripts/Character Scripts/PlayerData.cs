@@ -190,8 +190,11 @@ public class PlayerData : WeaponAgent
     // Call this via events when the player dies.
     public override void HandleDeath()
     {
-        // Remove the player's input controller.
+        // Remove the Monobehaviors this Player won't need anymore.
+        Destroy(this);
+        Destroy(GetComponent<Health>());
         Destroy(GetComponent<Player_InputController>());
+        Destroy(GetComponent<HumanoidPawn>());
 
         base.HandleDeath();
     }

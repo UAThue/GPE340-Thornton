@@ -297,6 +297,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawner (Variant)
       objectReference: {fileID: 0}
+    - target: {fileID: 2033336214213873463, guid: ea0e6f84f24239246877adf0a4fe13d5, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2033336214213873463, guid: ea0e6f84f24239246877adf0a4fe13d5, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 6522385557209418539, guid: 58fe3a6db7f82cc489315fcf9b353432, type: 3}
     - target: {fileID: 3681247597675691079, guid: ea0e6f84f24239246877adf0a4fe13d5, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2075,6 +2083,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7061921425204140149, guid: be07f13c081022342a343cd36c386568, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061921425204140149, guid: be07f13c081022342a343cd36c386568, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7957736576793788869, guid: 471cf3d4ca5a0c740882c78031146c5f, type: 3}
     - target: {fileID: 8489627580823765379, guid: be07f13c081022342a343cd36c386568, type: 3}
       propertyPath: m_Name
       value: TargetSpawner (2)
@@ -2299,6 +2315,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505298266}
   m_CullTransparentMesh: 1
+--- !u!1 &1581761652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6763768700951764239, guid: bec43c8df84fd144782729179e7a1702, type: 3}
+  m_PrefabInstance: {fileID: 6763768700770106449}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1581761655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581761652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2299b48cb665bc04087db11e417a6751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scale: {x: 1, y: 1, z: 1}
+  color: {r: 0, g: 1, b: 1, a: 1}
+  rayLength: 0.8
 --- !u!1001 &1625574704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2350,6 +2386,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7061921425204140149, guid: be07f13c081022342a343cd36c386568, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061921425204140149, guid: be07f13c081022342a343cd36c386568, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7957736576793788869, guid: 471cf3d4ca5a0c740882c78031146c5f, type: 3}
     - target: {fileID: 8489627580823765379, guid: be07f13c081022342a343cd36c386568, type: 3}
       propertyPath: m_Name
       value: TargetSpawner
@@ -2861,6 +2905,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7882723784003550474, guid: c2fc39cc22acac44da2705fbb9680631, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7882723784003550474, guid: c2fc39cc22acac44da2705fbb9680631, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7957736576793788869, guid: 471cf3d4ca5a0c740882c78031146c5f, type: 3}
     - target: {fileID: 8841908386389992700, guid: c2fc39cc22acac44da2705fbb9680631, type: 3}
       propertyPath: m_Name
       value: TargetSpawner (1)
@@ -3016,6 +3068,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9054745475088651079, guid: 25e669ad4eed1f34ba0439acefca739a, type: 3}
     - target: {fileID: 6763768700951764239, guid: bec43c8df84fd144782729179e7a1702, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763768700951764239, guid: bec43c8df84fd144782729179e7a1702, type: 3}
       propertyPath: m_Name
       value: WeaponPickup
       objectReference: {fileID: 0}
@@ -3098,6 +3154,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 2033336214213873463, guid: ea0e6f84f24239246877adf0a4fe13d5, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2033336214213873463, guid: ea0e6f84f24239246877adf0a4fe13d5, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 6522385557209418539, guid: 58fe3a6db7f82cc489315fcf9b353432, type: 3}
     - target: {fileID: 3681247597675691079, guid: ea0e6f84f24239246877adf0a4fe13d5, type: 3}
       propertyPath: m_RootOrder
       value: 0

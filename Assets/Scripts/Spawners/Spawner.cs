@@ -13,6 +13,10 @@ public class Spawner : MonoBehaviour
     [SerializeField, Tooltip("The delay between spawns, for either Continuous or Maintain.")]
     private float spawnDelay = 4.0f;
 
+    [SerializeField, Tooltip("Whether the spawned unit should be random." +
+        "If false, will choose the first item in the aray.")]
+    private bool useRandomPrefab = false;
+
     // The time since the last spawn occured.
     private float timeSinceSpawn = 0.0f;
 
@@ -47,8 +51,8 @@ public class Spawner : MonoBehaviour
 
     [Header("Object & Component References")]
 
-    [SerializeField, Tooltip("The prefab that this spawner should create from.")]
-    private GameObject spawnPrefab;
+    [SerializeField, Tooltip("All the prefabs that this spawner should create from.")]
+    private GameObject[] spawnPrefabs;
 
     [SerializeField, Tooltip("The Transform on this gameObject.")]
     private Transform tf;
@@ -59,11 +63,12 @@ public class Spawner : MonoBehaviour
 
         #region Enum Definitions
     // Enum definition for the different spawn modes.
-    // Once: Spawns once one time, then destroys itself.
+    // Once: Spawns one unit immediately, then destroys itself.
     // Continuous: Continues to spawn over time.
     // Maintain: Operates as Continuous until a certain number of spawn reached.
     //     Maintains that number of spawns by spawning more when some are desroyed.
-    public enum SpawnMode { Once, Continuous, Maintain }
+    // OnCommand: Spawns units only when commanded to.
+    public enum SpawnMode { Once, Continuous, Maintain, OnCommand }
     #endregion Enum Definitions
     #endregion Fields
 
@@ -72,6 +77,13 @@ public class Spawner : MonoBehaviour
     // Called immediately after being instantiated.
     private void Awake()
     {
+        // If the spawnPrefabs array is null, log an error and destroy this gameObject.
+        if (spawnPrefabs.Length == 0)
+        {
+            Debug.LogError("Spawner has no Prefabs to choose from. Destroying this object.");
+            Destroy(gameObject);
+        }
+
         // If any of these are null, try to set them up.
     }
 
@@ -110,7 +122,7 @@ public class Spawner : MonoBehaviour
             Continuous();
         }
         // Else, if set to Maintain,
-        else
+        else if (spawnMode == SpawnMode.Maintain)
         {
             // then perform the Maintain protocols.
             Maintain();
@@ -121,13 +133,13 @@ public class Spawner : MonoBehaviour
 
     #region Dev Methods
     // Spawn a unit at the spawnLocation.
-    private void SpawnUnit()
+    public void SpawnUnit()
     {
-        // Instantiate the spawnPrefab at the spawnLocation.
-        GameObject unit = Instantiate(spawnPrefab, spawnLocation.position, spawnLocation.rotation);
+        // Instantiate a unit at the spawnLocation.
+        GameObject unit = Instantiate(ChoosePrefab(), spawnLocation.position, spawnLocation.rotation);
 
-        // If the spawnMode is anything other than Once,
-        if (spawnMode != SpawnMode.Once)
+        // If the spawnMode is anything other than Once or OnCommand,
+        if (spawnMode != SpawnMode.Once && spawnMode != SpawnMode.OnCommand)
         {
             // then increment the number of active units.
             numActiveUnits++;
@@ -206,6 +218,22 @@ public class Spawner : MonoBehaviour
     private void DestroySelf()
     {
         Destroy(gameObject);
+    }
+
+    // Returns a prefab from the spawnPrefabs array. Random is useRandomPrefab is true.
+    private GameObject ChoosePrefab()
+    {
+        // If set to always use the first prefab in the array,
+        if (!useRandomPrefab)
+        {
+            // then simply return the first element of the array.
+            return spawnPrefabs[0];
+        }
+        // Else, is set to do it randomly.
+        else
+        {
+            return spawnPrefabs[Random.Range(0, spawnPrefabs.Length)];
+        }
     }
     #endregion Dev Methods
 }

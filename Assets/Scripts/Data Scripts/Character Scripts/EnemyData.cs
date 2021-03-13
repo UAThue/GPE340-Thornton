@@ -58,8 +58,12 @@ public class EnemyData : WeaponAgent
     // Call this via events when the enemy dies.
     public override void HandleDeath()
     {
-        // Remove the enemy's NavMesh Agent.
+        // Remove the enemy's Monobehaviors it won't need anymore.
+        Destroy(this);
+        Destroy(GetComponent<AI_Controller>());
         Destroy(GetComponent<NavMeshAgent>());
+        Destroy(GetComponent<Health>());
+        Destroy(GetComponent<Spawner>());
 
         base.HandleDeath();
     }
