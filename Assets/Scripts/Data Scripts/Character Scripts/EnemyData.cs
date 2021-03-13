@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 // Theese scripts are required.
 [RequireComponent(typeof(AI_Controller))]
@@ -54,6 +55,13 @@ public class EnemyData : WeaponAgent
 
 
     #region Dev Methods
+    // Call this via events when the enemy dies.
+    public override void HandleDeath()
+    {
+        // Remove the enemy's NavMesh Agent.
+        Destroy(GetComponent<NavMeshAgent>());
 
+        base.HandleDeath();
+    }
     #endregion Dev Methods
 }

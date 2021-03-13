@@ -42,14 +42,20 @@ public abstract class WeaponAgent : MonoBehaviour
 
     [Header("Object & Component References")]
 
+    [SerializeField, Tooltip("The Transform of this gameObject.")]
+    protected Transform tf;
+
     [SerializeField, Tooltip("The tf of the WeaponContainer, where the weapon should be held.")]
     private Transform attachPoint;
 
-    [SerializeField, Tooltip("The animator on this character.")]
-    private Animator animator;
+    [Tooltip("The animator on this character.")]
+    public Animator animator;
 
-    [SerializeField, Tooltip("The Transform of this gameObject.")]
-    protected Transform tf;
+    [Tooltip("The Main Collider for this character.")]
+    public Collider mainColl;
+
+    [Tooltip("The Main Rigidbody for this character.")]
+    public Rigidbody mainRB;
 
     // The OverheadCamera component on the camera that is following this Player.
     // Only applicable for Players, but this way is accessible for WeaponAgent typed vars (for HumanoidPawn).
@@ -72,7 +78,16 @@ public abstract class WeaponAgent : MonoBehaviour
     // Called immediately when the gameObject is instantiated.
     public virtual void Awake()
     {
-        
+        // Set up these variables.
+        if (mainColl == null)
+        {
+            mainColl = GetComponent<Collider>();
+        }
+
+        if (mainRB == null)
+        {
+            mainRB = GetComponent<Rigidbody>();
+        }
     }
 
     // Start is called before the first frame update
@@ -138,6 +153,19 @@ public abstract class WeaponAgent : MonoBehaviour
             // Tell the animator to show characcter as unarmed.
             animator.SetInteger(stanceParameter, (int)WeaponStance.Unarmed);
         }
+    }
+
+    // Stop attacking with weapon immediately.
+    public void StopAttack()
+    {
+        equippedWeapon.onAttackEnd.Invoke();
+    }
+
+    // Called via OnDeath event when the character dies.
+    public virtual void HandleDeath()
+    {
+        // Stop attacking at once.
+        StopAttack();
     }
 
     // Overridden by PlayerData.

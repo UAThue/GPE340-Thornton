@@ -186,5 +186,14 @@ public class PlayerData : WeaponAgent
     {
         return currentStamina;
     }
+
+    // Call this via events when the player dies.
+    public override void HandleDeath()
+    {
+        // Remove the player's input controller.
+        Destroy(GetComponent<Player_InputController>());
+
+        base.HandleDeath();
+    }
     #endregion Dev Methods
 }

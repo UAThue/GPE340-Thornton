@@ -98,9 +98,9 @@ public class Health : MonoBehaviour
     }
 
     // Destroys the gameObject. Events cannot destroy without a function to call, only set inactive.
-    public void DestroyObject()
+    public void DestroyObject(float delay)
     {
-        Destroy(gameObject);
+        Destroy(gameObject, delay);
     }
 
     // Called to heal the object's health by the specified amount.
