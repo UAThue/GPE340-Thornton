@@ -34,6 +34,16 @@ public abstract class Weapon : MonoBehaviour
     public WeaponAgent.WeaponStance weaponStance = WeaponAgent.WeaponStance.Unarmed;
 
 
+    [Header("AI Settings")]
+
+    [Tooltip("The maximum degree at which this weapon can attempt to fire at the target."),
+        Range(1f, 100f)]
+    public float AttackAngle = 5.0f;
+
+    [Tooltip("The maximum effective range of this weapon. Enemies won't attack if farther away than this.")]
+    public float effectiveRange = 40.0f;
+
+
     [Header("Match Rotation To Target Transform")]
 
     [Tooltip("The Transform to match rotations with. Leave empty for to rotation.")]

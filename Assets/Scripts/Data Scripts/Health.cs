@@ -18,18 +18,18 @@ public class Health : MonoBehaviour
 
     [Header("Events")]
 
-    [SerializeField, Tooltip("Raised every time the object is Damaged")]
-    private UnityEvent onDamage;
-    [SerializeField, Tooltip("Raised every time the object is healed")]
-    private UnityEvent onHeal;
-    [SerializeField, Tooltip("Raised once when the object's health reaches 0")]
-    private UnityEvent onDie;
+    [Tooltip("Raised every time the object is Damaged")]
+    public UnityEvent onDamage;
+    [Tooltip("Raised every time the object is healed")]
+    public UnityEvent onHeal;
+    [Tooltip("Raised once when the object's health reaches 0")]
+    public UnityEvent onDie;
 
 
     [Header("Object & Component references")]
 
     [SerializeField, Tooltip("The PlayerData on the character this is attached to, if appropriate.")]
-    private PlayerData data;
+    private PlayerData playerData;
     #endregion Fields
 
 
@@ -41,10 +41,10 @@ public class Health : MonoBehaviour
         InitializeHealth();
 
         // If any of these are null, try to set them up.
-        if (data == null)
+        if (playerData == null)
         {
             // This will not work if the Health is on an object without a PlayerData on it. That's OK.
-            data = GetComponent<PlayerData>();
+            playerData = GetComponent<PlayerData>();
         }
     }
     #endregion Unity Methods
@@ -98,9 +98,9 @@ public class Health : MonoBehaviour
     }
 
     // Destroys the gameObject. Events cannot destroy without a function to call, only set inactive.
-    public void DestroyObject()
+    public void DestroyObject(float delay)
     {
-        Destroy(gameObject);
+        Destroy(gameObject, delay);
     }
 
     // Called to heal the object's health by the specified amount.
@@ -146,9 +146,9 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Min(newHealth, maxHealth);
 
         // Tell the PlayerData to update the health bar, if it has a CharaccterData.
-        if (data != null)
+        if (playerData != null)
         {
-            data.UpdateHealthBar(GetHealthPercentage());
+            playerData.UpdateHealthBar(GetHealthPercentage());
         }
         
     }

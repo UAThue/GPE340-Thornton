@@ -12,17 +12,7 @@ using UnityEngine.UI;
 public class PlayerData : WeaponAgent
 {
     #region Fields
-    [Header("Speeds")]
-
-    // The maximum movement speed of this character.
-    [Tooltip("Max movement speed of this character.")]
-    public float maxMoveSpeed = 8.0f;
-
-    // The speed at which this character can turn their body.
-    [Tooltip("Speed that this character can turn.")]
-    public float turnSpeed = 90.0f;
-
-
+    // Stamina is for players only, not enemies.
     [Header("Stamina")]
 
     // The player's maximum stamina.
@@ -43,14 +33,8 @@ public class PlayerData : WeaponAgent
     // The amount of stamina to be recovered (per second) when recovering stamina.
     [SerializeField] private float staminaRecoveryRate = 20.0f;
 
-    // Whether or not the character is currently sprinting.
-    public bool isSprinting = false;
-
 
     [Header("Object & Component references")]
-
-    // The OverheadCamera component on the camera that is following this character.
-    public OverheadCamera overheadCam;
 
     [SerializeField, Tooltip("The Slider for the Stamina Bar on the UI HUD.")]
     private Slider staminaBar;
@@ -58,11 +42,28 @@ public class PlayerData : WeaponAgent
     [SerializeField, Tooltip("The Slider for the Health Bar on the UI HUD.")]
     private Slider healthBar;
 
+    // The player must have Health.
     [Tooltip("The Health script attached to this character.")]
     public Health health;
+
+    [SerializeField, Tooltip("The Weapon the player starts with. Leave blank to start unarmed.")]
+    private Weapon defaultWeapon;
     #endregion Fields
 
     #region Unity Methods
+    // Called immediately when the gameObject is instantiated.
+    public override void Awake()
+    {
+        base.Awake();
+
+        // If there is a default weapon assigned,
+        if (defaultWeapon != null)
+        {
+            // then equip that weapon.
+            EquipWeapon(defaultWeapon);
+        }
+    }
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -97,7 +98,7 @@ public class PlayerData : WeaponAgent
 
     #region Dev Methods
     // Returns bool for whether or not the character can sprint at the moment.
-    public bool CanSprint()
+    public override bool CanSprint()
     {
         // If there is stamina left,
         if (currentStamina > 0)
@@ -184,6 +185,18 @@ public class PlayerData : WeaponAgent
     public float GetCurrentStamina()
     {
         return currentStamina;
+    }
+
+    // Call this via events when the player dies.
+    public override void HandleDeath()
+    {
+        // Remove the Monobehaviors this Player won't need anymore.
+        Destroy(this);
+        Destroy(GetComponent<Health>());
+        Destroy(GetComponent<Player_InputController>());
+        Destroy(GetComponent<HumanoidPawn>());
+
+        base.HandleDeath();
     }
     #endregion Dev Methods
 }

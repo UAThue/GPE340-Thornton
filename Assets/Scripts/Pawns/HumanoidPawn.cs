@@ -3,6 +3,10 @@ using UnityEngine;
 public class HumanoidPawn : Pawn
 {
     #region Fields
+    // Whether this is on the Player.
+    private bool isPlayer = false;
+
+
     [Header("IK Weights, Left Arm")]
 
     [SerializeField, Range(0, 1), Tooltip("The weight used for setting the left hand position for IK.")]
@@ -29,20 +33,38 @@ public class HumanoidPawn : Pawn
 
     [Header("Object & Component references")]
 
-    // The CharacterData on this character.
-    [SerializeField] private PlayerData data;
+    // Will be either EnemyData or PlayerData, both derived from WeaponAgent.
+    [SerializeField, Tooltip("The data, either EnemyData or PlayerData.")]
+    private WeaponAgent data;
     #endregion Fields
 
 
     #region Unity Methods
-    // Start is called before the first frame update
-    public void Start()
+    // Called immediately after being instantiated.
+    protected override void Awake()
     {
+        base.Awake();
+
         // If any of these are not set up, set them up.
         if (data == null)
         {
-            data = GetComponent<PlayerData>();
+            data = GetComponent<WeaponAgent>();
         }
+
+        // Determine if this is a player or not. If so,
+        if (GetComponent<PlayerData>())
+        {
+            // set isPlayer to true.
+            isPlayer = true;
+        }
+    }
+
+    // Start is called before the first frame update
+    public override void Start()
+    {
+        
+
+        base.Start();
     }
 
     // Moves the character's hands toward the weapon's hand IK points.
@@ -112,39 +134,53 @@ public class HumanoidPawn : Pawn
     #region Dev Methods
     // Called by a controller to move the character. Moves the character in a direction at a speed.
     // Takes a bool for if the player is trying to sprint, and another for if trying to walk.
-    public override void Move(Vector3 direction, float speed, bool sprintKeyDown, bool walkKeyDown)
+    public override void Move(Vector3 direction, float speed, bool sprintKeyDown = false, bool walkKeyDown = false)
     {
-        // If the player is trying to sprint, and if the player can sprint,
-        if (sprintKeyDown && data.CanSprint())
+        // If this is the Player,
+        if (isPlayer)
         {
-            // then the current speed is fine. Do nothing to the speed.
-        }
-        // Else, can't sprint, or is not trying.
-        else
-        {
-            // Tell the CharacterData that the player is not sprinting.
-            data.isSprinting = false;
-
-            // If player wants to walk,
-            if (walkKeyDown)
+            // then adjust the speed based on input.
+            // If the Player is trying to sprint, and if the player can sprint,
+            if (sprintKeyDown && data.CanSprint())
             {
-                // then adjust the speed one quarter normal.
-                speed /= 4;
+                // then the current speed is fine. Do nothing to the speed.
             }
-            // Else, character must move at normal run speed (half of the max speed that is passed in).
+            // Else, can't sprint, or is not trying.
             else
             {
-                // Adjust speed to half.
-                speed /= 2;
+                // Tell the CharacterData that the player is not sprinting.
+                data.isSprinting = false;
+
+                // If player wants to walk,
+                if (walkKeyDown)
+                {
+                    // then adjust the speed one quarter normal.
+                    speed /= 4;
+                }
+                // Else, character must move at normal run speed (half of the max speed that is passed in).
+                else
+                {
+                    // Adjust speed to half.
+                    speed /= 2;
+                }
             }
         }
+
+        // Normalize the direction to maximum of 1.
+        direction = Vector3.ClampMagnitude(direction, 1f);
+        // Translate the direction to local from world for the animator.
+        direction = tf.InverseTransformDirection(direction);
 
         // Set the appropriate value on the animator to move.
         animator.SetFloat("Right", (direction.x * speed));
         animator.SetFloat("Forward", (direction.z * speed));
 
-        // Tell the camera for this character to follow the character.
-        data.overheadCam.FollowCharacter(data.isSprinting);
+        // If this is the Player, tell the overhead camera to follow them.
+        if (isPlayer)
+        {
+            // Tell the camera for this character to follow the character.
+            data.overheadCam.FollowCharacter(data.isSprinting);
+        }
     }
 
     // Called by a controller to turn the character toward a point instantaneously.
@@ -161,6 +197,37 @@ public class HumanoidPawn : Pawn
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - tf.position);
         // Rotate towards that angle over time.
         tf.rotation = Quaternion.RotateTowards(tf.rotation, targetRotation, (turnSpeed * Time.deltaTime));
+    }
+
+    // Toggle Ragdoll effect. Pass is true to turn Ragdoll on, false to turn Ragdoll off.
+    public void ToggleRagdoll(bool turnOn)
+    {
+        int i;
+
+        // Get reference to ALL Rigidbodies on gameObject and its children.
+        Rigidbody[] childRBs = GetComponentsInChildren<Rigidbody>();
+        // Iterate through that array and toggle them all.
+        for (i = 0; i < childRBs.Length; i++)
+        {
+            childRBs[i].isKinematic = !turnOn;
+        }
+
+        // Toggle the mainRB.
+        data.mainRB.isKinematic = turnOn;
+
+        // Get reference to ALL colliders on gameObject and its children.
+        Collider[] childColls = GetComponentsInChildren<Collider>();
+        // Iterate through that array and toggle them all.
+        for (i = 0; i < childColls.Length; i++)
+        {
+            childColls[i].enabled = turnOn;
+        }
+
+        // Toggle the mainColl.
+        data.mainColl.enabled = !turnOn;
+
+        // Toggle the animator.
+        data.animator.enabled = !turnOn;
     }
     #endregion Dev Methods
 }

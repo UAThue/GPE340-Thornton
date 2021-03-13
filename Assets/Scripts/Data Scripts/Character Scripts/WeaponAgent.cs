@@ -1,6 +1,7 @@
 using UnityEngine;
 
-// WeaponAgent is the parent for both PlayerData and EnemyData, so both can use weapons.
+/* WeaponAgent is the parent for both PlayerData and EnemyData, so both can use weapons.
+ * Therefore, WeaponAgent holds a lot of data variables that both players and enemies share.*/
 
 public abstract class WeaponAgent : MonoBehaviour
 {
@@ -15,24 +16,53 @@ public abstract class WeaponAgent : MonoBehaviour
     //private WeaponStance weaponStance = WeaponStance.Unarmed;
 
 
+    [Header("Speeds")]
+
+    // The maximum movement speed of this character.
+    [Tooltip("Max movement speed of this character.")]
+    public float maxMoveSpeed = 8.0f;
+
+    // The speed at which this character can turn their body.
+    [Tooltip("Speed that this character can turn.")]
+    public float turnSpeed = 90.0f;
+
+
     [Header("Animation Assistance")]
 
     [SerializeField, Tooltip("The name (as a string) of the anim int used for weapon stances.")]
     private string stanceParameter = "WeaponStance";
 
 
+    // Only applicable for Players, but this way is accessible for the HumanoidPawn.
+    [Header("Stamina")]
+
+    // Whether or not the Player is currently sprinting.
+    public bool isSprinting = false;
+
+
     [Header("Object & Component References")]
-
-    [SerializeField, Tooltip("The tf of the WeaponContainer, where the weapon should be held.")]
-    private Transform attachPoint;
-
-    [SerializeField, Tooltip("The animator on this character.")]
-    private Animator animator;
 
     [SerializeField, Tooltip("The Transform of this gameObject.")]
     protected Transform tf;
 
-        #region Enum Definitions
+    [SerializeField, Tooltip("The tf of the WeaponContainer, where the weapon should be held.")]
+    private Transform attachPoint;
+
+    [Tooltip("The animator on this character.")]
+    public Animator animator;
+
+    [Tooltip("The Main Collider for this character.")]
+    public Collider mainColl;
+
+    [Tooltip("The Main Rigidbody for this character.")]
+    public Rigidbody mainRB;
+
+    // The OverheadCamera component on the camera that is following this Player.
+    // Only applicable for Players, but this way is accessible for WeaponAgent typed vars (for HumanoidPawn).
+    [Tooltip("Only applicable for Players, but accessible through WeaponAgent (base).")]
+    public OverheadCamera overheadCam;
+
+    #region Enum Definitions
     // Enum for weapon types, to help tell animator which weapon stance to use.
     public enum WeaponStance
     {
@@ -40,14 +70,26 @@ public abstract class WeaponAgent : MonoBehaviour
         Rifle = 1,
         Handgun = 2
     }
-        #endregion Enum Definitions
+    #endregion Enum Definitions
     #endregion Fields
 
 
-
-
-
     #region Unity Methods
+    // Called immediately when the gameObject is instantiated.
+    public virtual void Awake()
+    {
+        // Set up these variables.
+        if (mainColl == null)
+        {
+            mainColl = GetComponent<Collider>();
+        }
+
+        if (mainRB == null)
+        {
+            mainRB = GetComponent<Rigidbody>();
+        }
+    }
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -111,6 +153,27 @@ public abstract class WeaponAgent : MonoBehaviour
             // Tell the animator to show characcter as unarmed.
             animator.SetInteger(stanceParameter, (int)WeaponStance.Unarmed);
         }
+    }
+
+    // Stop attacking with weapon immediately.
+    public void StopAttack()
+    {
+        equippedWeapon.onAttackEnd.Invoke();
+    }
+
+    // Called via OnDeath event when the character dies.
+    public virtual void HandleDeath()
+    {
+        // Stop attacking at once.
+        StopAttack();
+    }
+
+    // Overridden by PlayerData.
+    public virtual bool CanSprint()
+    {
+        // This should not be called at all. If it is, there is a problem. Log the error and return false.
+        Debug.LogError("ERROR: CanSprint() should NOT be called on WeaponAgent superclass.");
+        return false;
     }
     #endregion Dev Methods
 }
