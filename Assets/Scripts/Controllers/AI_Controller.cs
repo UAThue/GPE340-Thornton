@@ -32,7 +32,7 @@ public class AI_Controller : Controller
         if (target == null)
         {
             // Assume that we want to target the player if the target was not set up by designer.
-            target = GameManager.Instance.GetPlayer().transform;
+            target = GameManager.GetPlayer().transform;
         }
 
         if (agent == null)
