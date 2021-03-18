@@ -62,6 +62,9 @@ public class PlayerData : WeaponAgent
             // then equip that weapon.
             EquipWeapon(defaultWeapon);
         }
+
+        // Set up the references needed for this player using the GM.
+        SetUpReferences();
     }
 
     // Start is called before the first frame update
@@ -197,6 +200,14 @@ public class PlayerData : WeaponAgent
         Destroy(GetComponent<HumanoidPawn>());
 
         base.HandleDeath();
+    }
+
+    // Set up all the references needed for this Player from the GM.
+    private void SetUpReferences()
+    {
+        healthBar = GameManager.Instance.healthBar;
+        staminaBar = GameManager.Instance.staminaBar;
+        overheadCam = GameManager.Instance.overheadCamera;
     }
     #endregion Dev Methods
 }
