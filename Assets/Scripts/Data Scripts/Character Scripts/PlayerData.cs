@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,13 @@ public class PlayerData : WeaponAgent
     [SerializeField] private float staminaRecoveryRate = 20.0f;
 
 
+    [Header("Death Settings")]
+
+    [SerializeField, Tooltip("How long after death before the Player's body gameObject is destroyed." +
+        " This is separate and independent from the time before Player is respawned.")]
+    private float bodyDestructionDelay = 4.0f;
+
+
     [Header("Object & Component references")]
 
     [SerializeField, Tooltip("The Slider for the Stamina Bar on the UI HUD.")]
@@ -62,9 +70,6 @@ public class PlayerData : WeaponAgent
             // then equip that weapon.
             EquipWeapon(defaultWeapon);
         }
-
-        // Set up the references needed for this player using the GM.
-        SetUpReferences();
     }
 
     // Start is called before the first frame update
@@ -193,21 +198,30 @@ public class PlayerData : WeaponAgent
     // Call this via events when the player dies.
     public override void HandleDeath()
     {
+        // Toggle the Ragdoll.
+        GetComponent<HumanoidPawn>().ToggleRagdoll(true);
         // Remove the Monobehaviors this Player won't need anymore.
         Destroy(this);
         Destroy(GetComponent<Health>());
         Destroy(GetComponent<Player_InputController>());
         Destroy(GetComponent<HumanoidPawn>());
 
+        // Destroy this gameObject after a delay. The delay must be positive.
+        Destroy(gameObject, Math.Abs(bodyDestructionDelay));
+
         base.HandleDeath();
     }
 
     // Set up all the references needed for this Player from the GM.
-    private void SetUpReferences()
+    public void SetUpReferences()
     {
+        // Set references to gameObjects as necessary.
         healthBar = GameManager.Instance.healthBar;
         staminaBar = GameManager.Instance.staminaBar;
         overheadCam = GameManager.Instance.overheadCamera;
+
+        // Tell the camera to get a new reference to the Player.
+        overheadCam.FindPlayer();
     }
     #endregion Dev Methods
 }
