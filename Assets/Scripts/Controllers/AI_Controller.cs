@@ -58,6 +58,18 @@ public class AI_Controller : Controller
     // Update is called once per frame
     public override void Update()
     {
+        // If there is a player,
+        if (GameManager.GetPlayer())
+        {
+            // then ensure the target is always set up correctly.
+            target = GameManager.GetPlayer().transform;
+        }
+        // Else, there is no Player right now. DO NOTHING.
+        else
+        {
+            return;
+        }
+
         // Tell the pawn to move. It will change from world directions to local directions automatically.
         pawn.Move(DesiredVelocity(), data.maxMoveSpeed);
         /* NOTE: AT this point, both animator AND navMeshAgent are moving the enemy!

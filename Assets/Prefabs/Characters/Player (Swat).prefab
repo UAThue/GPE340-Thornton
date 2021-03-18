@@ -432,10 +432,11 @@ MonoBehaviour:
   staminaUseRate: 10
   staminaRecoveryDelay: 1
   staminaRecoveryRate: 20
+  bodyDestructionDelay: 4
   staminaBar: {fileID: 0}
   healthBar: {fileID: 0}
   health: {fileID: 3443558704869128458}
-  defaultWeapon: {fileID: 6702082510223376680, guid: 84a5df77d244f2848b3c0d5bf2670f48, type: 3}
+  defaultWeapon: {fileID: 9054745475088651079, guid: 25e669ad4eed1f34ba0439acefca739a, type: 3}
 --- !u!114 &3443558704869128458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,18 +461,6 @@ MonoBehaviour:
   onDie:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2119960344774479565}
-        m_TargetAssemblyTypeName: HumanoidPawn, Assembly-CSharp
-        m_MethodName: ToggleRagdoll
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 8726527030737258746}
         m_TargetAssemblyTypeName: PlayerData, Assembly-CSharp
         m_MethodName: HandleDeath
