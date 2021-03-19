@@ -66,6 +66,13 @@ public class Player_InputController : Controller
     // Update is called once per frame
     public override void Update()
     {
+        // If the game is paused,
+        if (GameManager.Instance.isPaused)
+        {
+            // then return. Do nothing.
+            return;
+        }
+
         // Get all movement input and act appropriately.
         GetMovementInput();
 

@@ -58,6 +58,13 @@ public class AI_Controller : Controller
     // Update is called once per frame
     public override void Update()
     {
+        // If the game is paused,
+        if (GameManager.Instance.isPaused)
+        {
+            // then return. Do nothing.
+            return;
+        }
+
         // If there is a player,
         if (GameManager.GetPlayer())
         {
