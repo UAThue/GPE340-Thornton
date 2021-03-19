@@ -39,7 +39,7 @@ public class OverheadCamera : MonoBehaviour
 
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            player = GameManager.GetPlayer().transform;
         }
     }
     #endregion Unity Methods

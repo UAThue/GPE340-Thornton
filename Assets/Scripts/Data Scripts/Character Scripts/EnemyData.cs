@@ -19,6 +19,9 @@ public class EnemyData : WeaponAgent
     [SerializeField, Tooltip("Where the loot spawned by this player should spawn at.")]
     private Transform lootSpawnLocation;
 
+    [SerializeField, Tooltip("The HealthBar attached to this enemy.")]
+    private HealthBar healthBar;
+
 
     [Header("Item Drop Settings")]
 
@@ -32,7 +35,6 @@ public class EnemyData : WeaponAgent
 
     // Cumalitive Density Function array for the itemDrops array.
     private float[] cdfArray;
-
     #endregion Fields
 
 
@@ -48,6 +50,9 @@ public class EnemyData : WeaponAgent
             // then equip a random weapon from the defaultWeapons array.
             EquipWeapon(defaultWeapons[Random.Range(0, defaultWeapons.Length)]);
         }
+
+        // Register this enemy's health bar.
+        UIManager.Instance.RegisterEnemy(health, healthBar);
     }
 
     // Start is called before the first frame update

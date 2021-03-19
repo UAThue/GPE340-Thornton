@@ -47,13 +47,6 @@ public class PlayerData : WeaponAgent
     [SerializeField, Tooltip("The Slider for the Stamina Bar on the UI HUD.")]
     private Slider staminaBar;
 
-    [SerializeField, Tooltip("The Slider for the Health Bar on the UI HUD.")]
-    private Slider healthBar;
-
-    // The player must have Health.
-    [Tooltip("The Health script attached to this character.")]
-    public Health health;
-
     [SerializeField, Tooltip("The Weapon the player starts with. Leave blank to start unarmed.")]
     private Weapon defaultWeapon;
     #endregion Fields
@@ -70,6 +63,9 @@ public class PlayerData : WeaponAgent
             // then equip that weapon.
             EquipWeapon(defaultWeapon);
         }
+
+        // Register the player's health bar.
+        UIManager.Instance.RegisterPlayer(health);
     }
 
     // Start is called before the first frame update
@@ -77,12 +73,6 @@ public class PlayerData : WeaponAgent
     {
         // Initialize currentStamina to equal maxStamina.
         currentStamina = maxStamina;
-
-        // If any of these are not set up, try to set them up.
-        if (health == null)
-        {
-            health = GetComponent<Health>();
-        }
 
         base.Start();
     }
@@ -183,12 +173,6 @@ public class PlayerData : WeaponAgent
         staminaBar.value = currentStamina / maxStamina;
     }
 
-    // Updates the health bar on the HUD. Called from the Health script when health changes.
-    public void UpdateHealthBar(float healthPercent)
-    {
-        healthBar.value = healthPercent;
-    }
-
     // Called to get the current stamina.
     public float GetCurrentStamina()
     {
@@ -216,7 +200,6 @@ public class PlayerData : WeaponAgent
     public void SetUpReferences()
     {
         // Set references to gameObjects as necessary.
-        healthBar = GameManager.Instance.healthBar;
         staminaBar = GameManager.Instance.staminaBar;
         overheadCam = GameManager.Instance.overheadCamera;
 

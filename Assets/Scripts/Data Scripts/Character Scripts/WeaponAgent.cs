@@ -16,6 +16,13 @@ public abstract class WeaponAgent : MonoBehaviour
     //private WeaponStance weaponStance = WeaponStance.Unarmed;
 
 
+    [Header("Health")]
+
+    // The player must have Health, and enemies MAY have Health.
+    [Tooltip("The Health script attached to this character.")]
+    public Health health;
+
+
     [Header("Speeds")]
 
     // The maximum movement speed of this character.
@@ -78,6 +85,12 @@ public abstract class WeaponAgent : MonoBehaviour
     // Called immediately when the gameObject is instantiated.
     public virtual void Awake()
     {
+        // If any of these are not set up, try to set them up.
+        if (health == null)
+        {
+            health = GetComponent<Health>();
+        }
+
         // Set up these variables.
         if (mainColl == null)
         {
