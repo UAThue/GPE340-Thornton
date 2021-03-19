@@ -21,6 +21,15 @@ public class GameManager : Singleton<GameManager>
     public Slider staminaBar;
 
 
+    [Header("Pausing")]
+
+    [Tooltip("Whether or not the game is paused.")]
+    public bool isPaused = false;
+
+    [Tooltip("The primary key used to pause the game.")]
+    public KeyCode primaryPauseKey = KeyCode.Escape;
+
+
     [Header("Spawning")]
 
     [SerializeField, Tooltip("Where the Player should start this level.")]
@@ -66,7 +75,8 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     public void Update()
     {
-
+        // Take in and handle all player input related to GM tasks.
+        HandleInput();
     }
     #endregion Unity Methods
 
@@ -105,8 +115,38 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    // Called every frame to handle player input for GM-related tasks.
+    private void HandleInput()
+    {
+        // If the player just pressed the primary pause key,
+        if (Input.GetKeyDown(primaryPauseKey))
+        {
+            // Then toggle whether the game is paused.
+            TogglePause();
+        }
+    }
 
-        #region Getters
+    // Toggles whether the game is paused.
+    private void TogglePause()
+    {
+        // If the game is NOT already paused,
+        if (!isPaused)
+        {
+            // then pause the game.
+            isPaused = true;
+            Time.timeScale = 0;
+        }
+        // Else, the game IS paused already.
+        else
+        {
+            // Unpause the game.
+            isPaused = false;
+            Time.timeScale = 1;
+        }
+    }
+
+
+    #region Getters
     public static PlayerData GetPlayer()
     {
         // Return reference to the player.
@@ -119,11 +159,11 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion Getters
 
-    #region Setters
+        #region Setters
     private void SetLivesLeft(int newVal)
     {
         livesLeft = newVal;
     }
-    #endregion Setters
+        #endregion Setters
     #endregion Dev Methods
 }
