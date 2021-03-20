@@ -130,7 +130,7 @@ public abstract class WeaponAgent : MonoBehaviour
         UnequipWeapon();
 
         // Create the weapon as our equipped weapon.
-        equippedWeapon = Instantiate(weapon) as Weapon;
+        equippedWeapon = Instantiate(weapon);
 
         // Get the Transforms, then set its parent and location/rotation.
         Transform weapon_tf = equippedWeapon.transform;
@@ -155,7 +155,10 @@ public abstract class WeaponAgent : MonoBehaviour
         // If there is a weapon equipped,
         if (equippedWeapon != null)
         {
-            // Then destroy the equipped weapon. Ensure the variable is now null.
+            // then tell the weapon it is being unequipped.
+            equippedWeapon.OnUnequip();
+
+            // Destroy the equipped weapon. Ensure the variable is now null.
             Destroy(equippedWeapon.gameObject);
             equippedWeapon = null;
 

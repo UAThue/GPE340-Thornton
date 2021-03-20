@@ -13,7 +13,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5939902725027826581, guid: 42965f096b610684d941f38915bdca33, type: 3}
       propertyPath: burstsPerMinute
-      value: 25
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939902725027826581, guid: 42965f096b610684d941f38915bdca33, type: 3}
+      propertyPath: isEquippedByPlayer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5939902725027826581, guid: 42965f096b610684d941f38915bdca33, type: 3}
       propertyPath: pointValueModifier

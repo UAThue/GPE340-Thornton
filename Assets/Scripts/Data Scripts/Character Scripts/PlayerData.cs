@@ -211,8 +211,11 @@ public class PlayerData : WeaponAgent
     public override void EquipWeapon(Weapon weapon)
     {
         base.EquipWeapon(weapon);
+        
+        equippedWeapon.isEquippedByPlayer = true;
+        equippedWeapon.OnEquip();
 
-        UIManager.Instance.UpdateWeaponIcon(weapon.weaponIcon);
+        UIManager.Instance.UpdateWeaponIcon(equippedWeapon.weaponIcon);
     }
     #endregion Dev Methods
 }
