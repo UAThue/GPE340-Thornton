@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,9 @@ public class HealthBar : MonoBehaviour
 
     [SerializeField, Tooltip("The slider of this health bar.")]
     private Slider slider;
+
+    [SerializeField, Tooltip("The TextMeshPro used for the percent shown on the PLAYER's health bar.")]
+    private TextMeshProUGUI playerHealthValueTextMesh;
 
 
     #endregion Fields
@@ -48,7 +52,15 @@ public class HealthBar : MonoBehaviour
     // Update the health bar's percentage.
     public void UpdateHealthBar()
     {
-        slider.value = target.GetHealthPercentage();
+        float percentage = target.GetHealthPercentage();
+        slider.value = percentage;
+
+        // If the playerHealthValueTextMesh is NOT null (if this is the Player),
+        if (playerHealthValueTextMesh != null)
+        {
+            // then update the text to match the value.
+            playerHealthValueTextMesh.text = (percentage * 100).ToString() + "%";
+        }
     }
 
     /* Destroys the healthBar. This is to prevent the healthBar hanging around when the enemy

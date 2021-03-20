@@ -128,7 +128,7 @@ public abstract class WeaponAgent : MonoBehaviour
 
     #region Dev Methods
     // Creates a weapon from the Weapon prefab passed in and equips it.
-    public void EquipWeapon(Weapon weapon)
+    public virtual void EquipWeapon(Weapon weapon)
     {
         // Unequip any currently equipped weapon.
         UnequipWeapon();

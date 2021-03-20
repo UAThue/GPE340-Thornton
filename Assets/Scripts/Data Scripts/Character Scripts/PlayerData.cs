@@ -206,5 +206,13 @@ public class PlayerData : WeaponAgent
         // Tell the camera to get a new reference to the Player.
         overheadCam.FindPlayer();
     }
+
+    // Overrides the WeaponAgent's EquipWeapon method.
+    public override void EquipWeapon(Weapon weapon)
+    {
+        base.EquipWeapon(weapon);
+
+        UIManager.Instance.UpdateWeaponIcon(weapon.weaponIcon);
+    }
     #endregion Dev Methods
 }

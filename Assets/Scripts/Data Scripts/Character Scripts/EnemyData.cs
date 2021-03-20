@@ -165,5 +165,11 @@ public class EnemyData : WeaponAgent
         // Instantiate the dropItem.
         Instantiate(dropItem, lootSpawnLocation.position, lootSpawnLocation.rotation);
     }
+
+    // Overrides the WeaponAgent's EquipWeapon method.
+    public override void EquipWeapon(Weapon weapon)
+    {
+        base.EquipWeapon(weapon);
+    }
     #endregion Dev Methods
 }

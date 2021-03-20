@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -12,9 +14,16 @@ public class UIManager : Singleton<UIManager>
     private HealthBar playerHealthBar;
 
 
-    //[Header("Object & Component References")]
+    [Header("Weapon Icon")]
+
+    [SerializeField, Tooltip("The Image used to show the weapon icon sprite for the Player's HUD.")]
+    private Image weaponIconImage;
 
 
+    [Header("Other Object & Component References")]
+
+    [SerializeField, Tooltip("The TextMeshProUGUI of the number of lives remaining on the Player's HUD.")]
+    private TextMeshProUGUI livesRemaingText;
     #endregion Fields
 
 
@@ -62,6 +71,18 @@ public class UIManager : Singleton<UIManager>
         enemy.onHeal.AddListener(healthBar.UpdateHealthBar);
         // Add one more to destroy the healthBar when the enemy dies.
         enemy.onDie.AddListener(healthBar.RemoveHealthBar);
+    }
+
+    // Called when a player equips a weapon to update the weaponIconImage.
+    public void UpdateWeaponIcon(Sprite newIcon)
+    {
+        weaponIconImage.sprite = newIcon;
+    }
+
+    // Called by the GM when the Player's number of remaining lives changes.
+    public void UpdateLivesRemainingText(int numLives)
+    {
+        livesRemaingText.text = numLives.ToString();
     }
     #endregion Dev Methods
 }

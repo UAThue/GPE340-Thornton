@@ -146,7 +146,7 @@ public class GameManager : Singleton<GameManager>
     }
 
 
-    #region Getters
+        #region Getters
     public static PlayerData GetPlayer()
     {
         // Return reference to the player.
@@ -160,9 +160,11 @@ public class GameManager : Singleton<GameManager>
     #endregion Getters
 
         #region Setters
+    // Sets the number of lives left and updates the HUD.
     private void SetLivesLeft(int newVal)
     {
         livesLeft = newVal;
+        UIManager.Instance.UpdateLivesRemainingText(livesLeft);
     }
         #endregion Setters
     #endregion Dev Methods
