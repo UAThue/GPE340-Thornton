@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 683b29997e28b3748a824d5f45984468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEquippedByPlayer: 0
   onAttackStart:
     m_PersistentCalls:
       m_Calls:
@@ -287,7 +288,7 @@ MonoBehaviour:
   pointValueModifier: 3
   tf: {fileID: 8381518924072011824}
   limitedFireRate: 1
-  roundsPerMinute: 45
+  roundsPerMinute: 60
   roundsPerBurst: 3
   burstTime: 0.25
   burstsPerMinute: 15
@@ -297,6 +298,8 @@ MonoBehaviour:
   muzzleVelocity: 35
   hasSpread: 1
   spread: 1
+  numRoundsDefault: 30
+  roundsUsedPerShot: 1
 --- !u!1001 &3311453872708575076
 PrefabInstance:
   m_ObjectHideFlags: 0

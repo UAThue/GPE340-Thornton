@@ -22,10 +22,13 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI livesRemaingText;
 
 
-    [Header("Weapon Icon")]
+    [Header("Weapon Icon Area")]
 
     [SerializeField, Tooltip("The Image used to show the weapon icon sprite for the Player's HUD.")]
     private Image weaponIconImage;
+
+    [SerializeField, Tooltip("The Text Mesh Pro UGUI showing the number of rounds left in the current weapon.")]
+    private TextMeshProUGUI ammoRemainingText;
 
 
     [Header("Score")]
@@ -130,10 +133,24 @@ public class UIManager : MonoBehaviour
         weaponIconImage.sprite = newIcon;
     }
 
-    // Called by the GM when the Player's number of remaining lives changes.
-    public void UpdateLivesRemainingText(int numLives)
+    // Called when the amount of ammo the Player has on hand changes.
+    public void UpdateAmmoRemainingText(int newValue)
     {
-        livesRemaingText.text = numLives.ToString();
+        // Update the UI to the new value of ammo remaining.
+        ammoRemainingText.text = newValue.ToString();
+    }
+
+    // Called by the GM when the Player's number of remaining lives changes.
+    public void UpdateLivesRemainingText(int newValue)
+    {
+        livesRemaingText.text = newValue.ToString();
+    }
+
+    // Update the score values for the in game HUD and the win screen.
+    public void UpdateScore(int newScore)
+    {
+        inGameScoreText.text = newScore.ToString();
+        winScreenScoreText.text = newScore.ToString();
     }
 
     // Turns the pause screen either on or off.
@@ -152,13 +169,6 @@ public class UIManager : MonoBehaviour
     public void ToggleWinScreen(bool turnOn)
     {
         winScreen.SetActive(turnOn);
-    }
-
-    // Update the score values for the in game HUD and the win screen.
-    public void UpdateScore(int newScore)
-    {
-        inGameScoreText.text = newScore.ToString();
-        winScreenScoreText.text = newScore.ToString();
     }
     #endregion Dev Methods
 

@@ -94,14 +94,14 @@ public class GameManager : MonoBehaviour
             Destroy(this);
             return;
         }
+
+        // Spawn the player on the start point and save a reference to their data.
+        SpawnPlayer();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // Spawn the player on the start point and save a reference to their data.
-        SpawnPlayer();
-
         // Set initial lives.
         SetLivesLeft(initialLives);
     }
@@ -144,8 +144,7 @@ public class GameManager : MonoBehaviour
         // Else, the Player did not have any more lives left.
         else
         {
-            // TODO: Game Over!
-            print("Game Over!");
+            GameManager.Instance.LoseGame();
         }
     }
 
@@ -205,10 +204,10 @@ public class GameManager : MonoBehaviour
     // Restart the current level.
     public void RestartLevel()
     {
-        // RestartLevel the current level.
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // Ensure that the game is NOT paused.
         DoPause(false);
+        // RestartLevel the current level.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // The Player loses the game.

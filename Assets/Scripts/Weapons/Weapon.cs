@@ -9,6 +9,11 @@ using UnityEngine.Events;
 public abstract class Weapon : MonoBehaviour
 {
     #region Fields
+    [HideInInspector]
+    // Whether this weapon is attached to the Player.
+    public bool isEquippedByPlayer = false;
+
+
     [Header("Unity Events")]
 
     // The event to be called when the weapon starts its attack.
@@ -79,6 +84,11 @@ public abstract class Weapon : MonoBehaviour
 
 
     #region Unity Methods
+    public virtual void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -107,6 +117,18 @@ public abstract class Weapon : MonoBehaviour
 
     // Called at the end of the attack with this weapon.
     public virtual void AttackEnd()
+    {
+
+    }
+
+    // Called when the weapon is being equipped.
+    public virtual void OnEquip()
+    {
+
+    }
+
+    // Called when the weapon is being unequipped.
+    public virtual void OnUnequip()
     {
 
     }
