@@ -283,6 +283,8 @@ MonoBehaviour:
   effectiveRange: 40
   rotationTarget: {fileID: 0}
   rotationSpeed: 5
+  weaponIcon: {fileID: 21300000, guid: ded270ede04fcf14ebb45ad95b8c4835, type: 3}
+  pointValueModifier: 3
   tf: {fileID: 8381518924072011824}
   limitedFireRate: 1
   roundsPerMinute: 45

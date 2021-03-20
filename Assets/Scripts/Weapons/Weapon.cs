@@ -1,6 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/* Attribution:
+ *  Rifle icon - Eucalyp, flaticon.com
+ *  Hanfgun Icon - Kiranshastry, flaticon.com
+ */
+
 public abstract class Weapon : MonoBehaviour
 {
     #region Fields
@@ -51,6 +56,19 @@ public abstract class Weapon : MonoBehaviour
 
     [SerializeField, Tooltip("The speed at which the rotation will occur.")]
     private float rotationSpeed = 5.0f;
+
+
+    [Header("Weapon Icon (UI)")]
+
+    [Tooltip("The Sprite for the icon representing this weapon on the Player's HUD.")]
+    public Sprite weaponIcon;
+
+
+    [Header("Scoring")]
+
+    [Tooltip("The amount of point value that wielding this weapon adds to the wielder." +
+        " The number of points earned by killing an enemy are increased by this number of their weapon.")]
+    public int pointValueModifier = 2;
 
 
     [Header("Object & Component References")]

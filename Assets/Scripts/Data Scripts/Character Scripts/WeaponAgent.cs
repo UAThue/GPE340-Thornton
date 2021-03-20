@@ -11,9 +11,12 @@ public abstract class WeaponAgent : MonoBehaviour
     [Tooltip("The weapon that this character has equipped.")]
     public Weapon equippedWeapon;
 
-    // TODO: Do I need this?
-    //// The current weapon stance this character should be using.
-    //private WeaponStance weaponStance = WeaponStance.Unarmed;
+
+    [Header("Health")]
+
+    // The player must have Health, and enemies MAY have Health.
+    [Tooltip("The Health script attached to this character.")]
+    public Health health;
 
 
     [Header("Speeds")]
@@ -78,6 +81,12 @@ public abstract class WeaponAgent : MonoBehaviour
     // Called immediately when the gameObject is instantiated.
     public virtual void Awake()
     {
+        // If any of these are not set up, try to set them up.
+        if (health == null)
+        {
+            health = GetComponent<Health>();
+        }
+
         // Set up these variables.
         if (mainColl == null)
         {
@@ -115,7 +124,7 @@ public abstract class WeaponAgent : MonoBehaviour
 
     #region Dev Methods
     // Creates a weapon from the Weapon prefab passed in and equips it.
-    public void EquipWeapon(Weapon weapon)
+    public virtual void EquipWeapon(Weapon weapon)
     {
         // Unequip any currently equipped weapon.
         UnequipWeapon();
@@ -141,7 +150,7 @@ public abstract class WeaponAgent : MonoBehaviour
     }
 
     // Unequips the weapon, destroying it.
-    public void UnequipWeapon()
+    public virtual void UnequipWeapon()
     {
         // If there is a weapon equipped,
         if (equippedWeapon != null)

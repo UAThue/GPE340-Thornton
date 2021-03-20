@@ -29,12 +29,6 @@ public class AI_Controller : Controller
         base.Awake();
 
         // If any of these are null, try to set them up.
-        if (target == null)
-        {
-            // Assume that we want to target the player if the target was not set up by designer.
-            target = GameManager.GetPlayer().transform;
-        }
-
         if (agent == null)
         {
             // Grab the NavMeshAgent component off of this gameObject.
@@ -50,7 +44,11 @@ public class AI_Controller : Controller
     // Start is called before the first frame update
     public override void Start()
     {
-        
+        if (target == null)
+        {
+            // Assume that we want to target the player if the target was not set up by designer.
+            target = GameManager.GetPlayer().transform;
+        }
 
         base.Start();
     }

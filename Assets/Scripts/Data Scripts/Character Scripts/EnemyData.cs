@@ -19,6 +19,19 @@ public class EnemyData : WeaponAgent
     [SerializeField, Tooltip("Where the loot spawned by this player should spawn at.")]
     private Transform lootSpawnLocation;
 
+    [SerializeField, Tooltip("The HealthBar attached to this enemy.")]
+    private HealthBar healthBar;
+
+
+    [Header("Scoring")]
+
+    [SerializeField, Tooltip("The amount of base points this enemy is worth before" +
+        " considering the adjustment provided by the equipped weapon.")]
+    private int basePointValue = 10;
+
+    // The amount of points this enemy will provide to the Player when they die.
+    private int currentPointValue = 0;
+
 
     [Header("Item Drop Settings")]
 
@@ -32,7 +45,6 @@ public class EnemyData : WeaponAgent
 
     // Cumalitive Density Function array for the itemDrops array.
     private float[] cdfArray;
-
     #endregion Fields
 
 
@@ -42,12 +54,18 @@ public class EnemyData : WeaponAgent
     {
         base.Awake();
 
+        // Initialize the currentPointValue.
+        ChangePointValue(basePointValue);
+
         // If the default weapons array is not empty,
         if (defaultWeapons.Length > 0)
         {
             // then equip a random weapon from the defaultWeapons array.
             EquipWeapon(defaultWeapons[Random.Range(0, defaultWeapons.Length)]);
         }
+
+        // Register this enemy's health bar.
+        UIManager.Instance.RegisterEnemy(health, healthBar);
     }
 
     // Start is called before the first frame update
@@ -159,6 +177,43 @@ public class EnemyData : WeaponAgent
 
         // Instantiate the dropItem.
         Instantiate(dropItem, lootSpawnLocation.position, lootSpawnLocation.rotation);
+    }
+
+    // Overrides the WeaponAgent's EquipWeapon method.
+    public override void EquipWeapon(Weapon weapon)
+    {
+        base.EquipWeapon(weapon);
+
+        // Apply the pointValue modifier to this enemy based on the weapon equipped.
+        ChangePointValue(weapon.pointValueModifier);
+    }
+
+    // Overrides the WeaponAgent's UnequipWeapon method.
+    public override void UnequipWeapon()
+    {
+        // If there is a weapon equipped,
+        if (equippedWeapon != null)
+        {
+            // then unapply the weapon's point value modifier before unequipping it.
+            ChangePointValue(-equippedWeapon.pointValueModifier);
+        }
+
+        base.UnequipWeapon();
+    }
+
+    // Adjusts this enemy's current point value by the amount provided.
+    // Positive numbers increase the point value, and negaytive numbers lower it.
+    public void ChangePointValue(int valueChange)
+    {
+        // Apply the change, with a minimum of the enemy's basePointValue.
+        currentPointValue = Mathf.Max((currentPointValue + valueChange), basePointValue);
+    }
+
+    // Apply this enemy's point value to the Player's score.
+    // Should be called by onDie event if this Enemy should provide a score change.
+    public void ApplyPointValue()
+    {
+        GameManager.Instance.ChangeScore(currentPointValue);
     }
     #endregion Dev Methods
 }

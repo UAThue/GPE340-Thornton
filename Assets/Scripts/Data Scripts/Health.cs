@@ -34,12 +34,16 @@ public class Health : MonoBehaviour
 
 
     #region Unity Methods
-    // Start is called before the first frame update
-    void Start()
+    // Called immediately when instantiated, before Start.
+    private void Awake()
     {
         // Initialize the object's health.
         InitializeHealth();
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         // If any of these are null, try to set them up.
         if (playerData == null)
         {
@@ -144,12 +148,6 @@ public class Health : MonoBehaviour
     {
         // Ensure currentHealth does not go above maxHealth.
         currentHealth = Mathf.Min(newHealth, maxHealth);
-
-        // Tell the PlayerData to update the health bar, if it has a CharaccterData.
-        if (playerData != null)
-        {
-            playerData.UpdateHealthBar(GetHealthPercentage());
-        }
         
     }
         #endregion Setters

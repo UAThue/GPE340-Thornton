@@ -1,9 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
     #region Fields
+    // SINGLETON
+    public static GameManager Instance { get; private set; }
+
+
     [Header("The Player")]
 
     [SerializeField, Tooltip("The PREFAB for the Player.")]
@@ -48,6 +54,21 @@ public class GameManager : Singleton<GameManager>
     private int livesLeft;
 
 
+    [Header("Scene Info")]
+
+    [SerializeField, Tooltip("The EXACT name of the Main Menu scene.")]
+    private string mainMenuSceneName = "MainMenu";
+
+
+    [Header("Scoring")]
+
+    [SerializeField, Tooltip("The number of points the Player needs in order to beat the level.")]
+    private int scoreWinCondition = 50;
+
+    // The Player's current score, earned by killing the enemies.
+    private int currentScore = 0;
+
+
     [Header("Other Object & Component References")]
 
     [Tooltip("The OverheadCamera script on the main camera that should follow the player.")]
@@ -59,17 +80,30 @@ public class GameManager : Singleton<GameManager>
     // Called when instantiated.
     private void Awake()
     {
-        // Spawn the player on the start point and save a reference to their data.
-        SpawnPlayer();
-
-        // Set initial lives.
-        SetLivesLeft(initialLives);
+        // SINGLETON
+        // If there isn't already an instance of this class,
+        if (Instance == null)
+        {
+            // then this will the the only allows instance.
+            Instance = this;
+        }
+        // Else, a new GameManager is trying to instantiate, but there can only be one.
+        else
+        {
+            // Destroy this GameManager and end the Awake method.
+            Destroy(this);
+            return;
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Spawn the player on the start point and save a reference to their data.
+        SpawnPlayer();
+
+        // Set initial lives.
+        SetLivesLeft(initialLives);
     }
 
     // Update is called once per frame
@@ -122,27 +156,82 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(primaryPauseKey))
         {
             // Then toggle whether the game is paused.
-            TogglePause();
+            TogglePause(!isPaused);
+        }
+    }
+
+    // Called whenever the Player earns or loses points toward their score.
+    // Positive input increases the score. Negative lowers the score.
+    public void ChangeScore(int scoreChange)
+    {
+        // Apply the change, minimum of 0.
+        currentScore = Mathf.Max((currentScore + scoreChange), 0);
+        // Tell the UIManager to update the UI.
+        UIManager.Instance.UpdateScore(currentScore);
+        // Check if the game has been won.
+        if (currentScore >= scoreWinCondition)
+        {
+            WinGame();
         }
     }
 
     // Toggles whether the game is paused.
-    private void TogglePause()
+    public void TogglePause(bool pauseGame)
     {
-        // If the game is NOT already paused,
-        if (!isPaused)
+        // Do the pause toggle.
+        DoPause(pauseGame);
+
+        // If we are pausing the game,
+        if (pauseGame)
         {
-            // then pause the game.
-            isPaused = true;
-            Time.timeScale = 0;
+            // Invoke the onPause event on the UIManager.
+            UIManager.Instance.onPause.Invoke();
         }
-        // Else, the game IS paused already.
+        // Else, we are unpausing the game.
         else
         {
-            // Unpause the game.
-            isPaused = false;
-            Time.timeScale = 1;
+            // Invoke the onResume event on the UIManager.
+            UIManager.Instance.onResume.Invoke();
         }
+    }
+
+    // Do the actual implementation of pausing and unpausing.
+    private void DoPause(bool turnOn)
+    {
+        isPaused = turnOn;
+        Time.timeScale = Convert.ToInt32(!turnOn);
+    }
+
+    // Restart the current level.
+    public void RestartLevel()
+    {
+        // RestartLevel the current level.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // Ensure that the game is NOT paused.
+        DoPause(false);
+    }
+
+    // The Player loses the game.
+    public void LoseGame()
+    {
+        // Invoke the onLose event on the UIManager.
+        UIManager.Instance.onLose.Invoke();
+    }
+
+    // The Player wins the game.
+    public void WinGame()
+    {
+        // Pause the game (without invoking the normal onPause event).
+        DoPause(true);
+
+        // Invoke the UIManager's onWin event.
+        UIManager.Instance.onWin.Invoke();
+    }
+
+    // Quits this game, taking the Player back to the main menu.
+    public void QuitGame()
+    {
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
 
@@ -160,9 +249,11 @@ public class GameManager : Singleton<GameManager>
     #endregion Getters
 
         #region Setters
+    // Sets the number of lives left and updates the HUD.
     private void SetLivesLeft(int newVal)
     {
         livesLeft = newVal;
+        UIManager.Instance.UpdateLivesRemainingText(livesLeft);
     }
         #endregion Setters
     #endregion Dev Methods
