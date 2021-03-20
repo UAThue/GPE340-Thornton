@@ -64,6 +64,13 @@ public abstract class Weapon : MonoBehaviour
     public Sprite weaponIcon;
 
 
+    [Header("Scoring")]
+
+    [Tooltip("The amount of point value that wielding this weapon adds to the wielder." +
+        " The number of points earned by killing an enemy are increased by this number of their weapon.")]
+    public int pointValueModifier = 2;
+
+
     [Header("Object & Component References")]
 
     [SerializeField, Tooltip("The Transform on this gameObject.")]

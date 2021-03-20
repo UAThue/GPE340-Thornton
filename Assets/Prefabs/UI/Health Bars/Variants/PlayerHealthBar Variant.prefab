@@ -525,7 +525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5095230070258242904}
   m_Layer: 5
-  m_Name: Text Meshes
+  m_Name: Health Texts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,7 +815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2965977719079491287, guid: 42215aaa6d32038429d73610c5555d0a, type: 3}
       propertyPath: m_Name
-      value: PlayerHealthBar Variant
+      value: PlayerHealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 2965977719239204417, guid: 42215aaa6d32038429d73610c5555d0a, type: 3}
       propertyPath: m_AnchorMax.x

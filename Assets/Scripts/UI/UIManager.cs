@@ -1,17 +1,25 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
-public class UIManager : Singleton<UIManager>
+public class UIManager : MonoBehaviour
 {
     #region Fields
-    [Header("Health Bars")]
+    // SINGLETON
+    public static UIManager Instance { get; private set; }
+
+
+    [Header("Health & Lives")]
 
     [SerializeField, Tooltip("Prefab for enemy health bars.")]
     private HealthBar enemyHealthBarPrefab;
 
     [SerializeField, Tooltip("The health bar (script) on the main canvas to be assigned to the Player.")]
     private HealthBar playerHealthBar;
+
+    [SerializeField, Tooltip("The TextMeshProUGUI of the number of lives remaining on the Player's HUD.")]
+    private TextMeshProUGUI livesRemaingText;
 
 
     [Header("Weapon Icon")]
@@ -20,10 +28,40 @@ public class UIManager : Singleton<UIManager>
     private Image weaponIconImage;
 
 
-    [Header("Other Object & Component References")]
+    [Header("Score")]
 
-    [SerializeField, Tooltip("The TextMeshProUGUI of the number of lives remaining on the Player's HUD.")]
-    private TextMeshProUGUI livesRemaingText;
+    [SerializeField, Tooltip("The Text Mesh Pro UGUI of the score value on the normal HUD.")]
+    private TextMeshProUGUI inGameScoreText;
+
+    [SerializeField, Tooltip("The Text Mesh Pro UGUI of the score value on the win screen.")]
+    private TextMeshProUGUI winScreenScoreText;
+
+
+    [Header("Extra Menus and Screens")]
+
+    [SerializeField, Tooltip("The GameObject holding the Pause Menu in the main canvas.")]
+    private GameObject pauseMenu;
+
+    [SerializeField, Tooltip("The GameObject holding the Lose Screen in the main canvas.")]
+    private GameObject loseScreen;
+
+    [SerializeField, Tooltip("The GameObject holding the Win Screen in the main canvas.")]
+    private GameObject winScreen;
+
+
+    [Header("Events")]
+
+    [Tooltip("Invoked when the game is paused by the GM.")]
+    public UnityEvent onPause;
+
+    [Tooltip("Invoked when the game is resumed by the GM.")]
+    public UnityEvent onResume;
+
+    [Tooltip("Invoked by the GM when the game is lost.")]
+    public UnityEvent onLose;
+
+    [Tooltip("Invoked by the GM when the game is won.")]
+    public UnityEvent onWin;
     #endregion Fields
 
 
@@ -31,7 +69,20 @@ public class UIManager : Singleton<UIManager>
     // Called immediately after being instantiated.
     private void Awake()
     {
-        // If any of these are null, try to set them up.
+        // SINGLETON
+        // If there isn't already an instance of this class,
+        if (Instance == null)
+        {
+            // then this will the the only allows instance.
+            Instance = this;
+        }
+        // Else, a new GameManager is trying to instantiate, but there can only be one.
+        else
+        {
+            // Destroy this GameManager and end the Awake method.
+            Destroy(this);
+            return;
+        }
     }
 
     // Start is called before the first frame update
@@ -49,7 +100,7 @@ public class UIManager : Singleton<UIManager>
 
 
     #region Dev Methods
-    // Called on Awake by PlayerData to register the primary health bar to them.
+    // Called on Start by PlayerData to register the primary health bar to them.
     public void RegisterPlayer(Health player)
     {
         // Set the primary health bar's target to the player.
@@ -84,5 +135,83 @@ public class UIManager : Singleton<UIManager>
     {
         livesRemaingText.text = numLives.ToString();
     }
+
+    // Turns the pause screen either on or off.
+    public void TogglePauseScreen(bool turnOn)
+    {
+        pauseMenu.SetActive(turnOn);
+    }
+
+    // Turns the lose screen either on or off.
+    public void ToggleLoseScreen(bool turnOn)
+    {
+        loseScreen.SetActive(turnOn);
+    }
+
+    // Turns the win screen either on or off.
+    public void ToggleWinScreen(bool turnOn)
+    {
+        winScreen.SetActive(turnOn);
+    }
+
+    // Update the score values for the in game HUD and the win screen.
+    public void UpdateScore(int newScore)
+    {
+        inGameScoreText.text = newScore.ToString();
+        winScreenScoreText.text = newScore.ToString();
+    }
     #endregion Dev Methods
+
+
+    #region UI Callback Methods
+    // Pause Screen -->
+
+    // Called when the Player presses the Resume button on the Pause Screen.
+    public void PauseScreen_OnResumeButtonClicked()
+    {
+        // Unpause the game.
+        GameManager.Instance.TogglePause(false);
+    }
+
+    // Called when the Player presses the Quit button on the Pause Screen.
+    public void PauseScreen_OnQuitButtonClicked()
+    {
+        // Exit this game to the Main Menu.
+        GameManager.Instance.QuitGame();
+    }
+
+
+    // Lose Screen -->
+
+    // Called when the Player presses the Play Again button on the Lose Screen.
+    public void LoseScreen_OnPlayAgainButtonClicked()
+    {
+        // Restart the game level.
+        GameManager.Instance.RestartLevel();
+    }
+
+    // Called when the Player presses the Quit button on the Lose Screen.
+    public void LoseScreen_OnQuitButtonClicked()
+    {
+        // Quit this game and go to the main menu.
+        GameManager.Instance.QuitGame();
+    }
+
+
+    // Win Screen -->
+
+    // Called when the Player presses the Play Again button on the Win Screen.
+    public void WinScreen_OnPlayAgainButtonClicked()
+    {
+        // Have the GM restart the level.
+        GameManager.Instance.RestartLevel();
+    }
+
+    // Called when the Player presses the Quit button on the Win Screen.
+    public void WinScreen_OnQuitButtonClicked()
+    {
+        // Quit this game and go to the main menu.
+        GameManager.Instance.QuitGame();
+    }
+    #endregion UI Callback Methods
 }

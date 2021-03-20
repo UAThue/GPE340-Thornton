@@ -11,10 +11,6 @@ public abstract class WeaponAgent : MonoBehaviour
     [Tooltip("The weapon that this character has equipped.")]
     public Weapon equippedWeapon;
 
-    // TODO: Do I need this?
-    //// The current weapon stance this character should be using.
-    //private WeaponStance weaponStance = WeaponStance.Unarmed;
-
 
     [Header("Health")]
 
@@ -154,7 +150,7 @@ public abstract class WeaponAgent : MonoBehaviour
     }
 
     // Unequips the weapon, destroying it.
-    public void UnequipWeapon()
+    public virtual void UnequipWeapon()
     {
         // If there is a weapon equipped,
         if (equippedWeapon != null)

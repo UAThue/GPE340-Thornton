@@ -30,8 +30,7 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        // Update the health bar.
-        UpdateHealthBar();
+
     }
 
     // Update is called once per frame

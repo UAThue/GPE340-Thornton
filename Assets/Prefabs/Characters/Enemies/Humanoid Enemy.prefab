@@ -796,6 +796,7 @@ MonoBehaviour:
   - {fileID: 6702082510223376680, guid: 84a5df77d244f2848b3c0d5bf2670f48, type: 3}
   lootSpawnLocation: {fileID: 7781190230167586643}
   healthBar: {fileID: 2567821603956932865}
+  basePointValue: 10
   itemDropChance: 75
   itemDrops:
   - value: {fileID: 5107339914557665881, guid: 76232ed82d169504eab35c10de0d0c54, type: 3}
@@ -832,10 +833,10 @@ MonoBehaviour:
   onDie:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 551648913136914269}
-        m_TargetAssemblyTypeName: HumanoidPawn, Assembly-CSharp
-        m_MethodName: ToggleRagdoll
-        m_Mode: 6
+      - m_Target: {fileID: 938603442487224561}
+        m_TargetAssemblyTypeName: EnemyData, Assembly-CSharp
+        m_MethodName: ApplyPointValue
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -844,10 +845,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 938603442487224561}
-        m_TargetAssemblyTypeName: EnemyData, Assembly-CSharp
-        m_MethodName: HandleDeath
-        m_Mode: 1
+      - m_Target: {fileID: 551648913136914269}
+        m_TargetAssemblyTypeName: HumanoidPawn, Assembly-CSharp
+        m_MethodName: ToggleRagdoll
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -881,7 +882,19 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 938603442487224561}
-        m_TargetAssemblyTypeName: WeaponAgent, Assembly-CSharp
+        m_TargetAssemblyTypeName: EnemyData, Assembly-CSharp
+        m_MethodName: HandleDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 938603442487224561}
+        m_TargetAssemblyTypeName: EnemyData, Assembly-CSharp
         m_MethodName: UnequipWeapon
         m_Mode: 1
         m_Arguments:

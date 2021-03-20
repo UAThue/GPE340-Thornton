@@ -56,7 +56,11 @@ public class PlayerData : WeaponAgent
     public override void Awake()
     {
         base.Awake();
+    }
 
+    // Start is called before the first frame update
+    public override void Start()
+    {
         // If there is a default weapon assigned,
         if (defaultWeapon != null)
         {
@@ -66,11 +70,7 @@ public class PlayerData : WeaponAgent
 
         // Register the player's health bar.
         UIManager.Instance.RegisterPlayer(health);
-    }
 
-    // Start is called before the first frame update
-    public override void Start()
-    {
         // Initialize currentStamina to equal maxStamina.
         currentStamina = maxStamina;
 
