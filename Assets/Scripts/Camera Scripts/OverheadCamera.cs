@@ -7,10 +7,10 @@ public class OverheadCamera : MonoBehaviour
     #region Fields
     [Header("Camera Movement")]
 
-    // The distance desired between the camera and the player.
+    // The distance desired between the camera and the Player.
     [SerializeField] private Vector3 offset = new Vector3(0, 10, 0);
 
-    // The  slower, default speed that the camera follows the character.
+    // The  slower, default speed that the camera follows the Player.
     [SerializeField] private float moveSpeed_Default = 2.0f;
 
     // The speed that the camera follows the character while the character is sprinting.
@@ -19,8 +19,8 @@ public class OverheadCamera : MonoBehaviour
 
     [Header("Object & Component References")]
 
-    // The Transform of the character that this camera should follow.
-    [SerializeField] private Transform character;
+    // The Transform of the Player.
+    [SerializeField] private Transform player;
 
     // The Transform of this camera.
     [SerializeField] private Transform tf;
@@ -37,9 +37,9 @@ public class OverheadCamera : MonoBehaviour
             tf = transform;
         }
 
-        if (character == null)
+        if (player == null)
         {
-            character = GameObject.FindGameObjectWithTag("Player").transform;
+            player = GameManager.GetPlayer().transform;
         }
     }
     #endregion Unity Methods
@@ -64,9 +64,24 @@ public class OverheadCamera : MonoBehaviour
         tf.position = Vector3.MoveTowards
             (
                 tf.position,
-                character.position + offset,
+                player.position + offset,
                 moveSpeed * Time.deltaTime
             );
+    }
+
+    // Get a new reference to the Player (Called when Player respawns).
+    public void FindPlayer()
+    {
+        // Get a new reference to the Player.
+        player = GameManager.GetPlayer().transform;
+        // Snap to the Player immediately.
+        SnapToPlayer();
+    }
+
+    // Immediately move the camera to be over the Player (instead of over time).
+    private void SnapToPlayer()
+    {
+        tf.position = new Vector3(player.position.x, player.position.y, player.position.z) + offset;
     }
     #endregion Dev Methods
 }

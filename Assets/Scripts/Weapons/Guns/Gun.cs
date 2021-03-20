@@ -58,10 +58,28 @@ public class Gun : Weapon
 
     [SerializeField, Tooltip("The amount of variance in initial trajectory of the bullets.")]
     private float spread = 1.2f;
+
+
+    [Header("Ammo Settings")]
+
+    [SerializeField, Tooltip("The number of rounds this gun starts with when equipped.")]
+    private int numRoundsDefault = 30;
+
+    [SerializeField, Tooltip("The number of rounds used with each bullet fired " +
+        "(almost always 1, DO NOT account for rounds per burst).")]
+    private int roundsUsedPerShot = 1;
+
+    // The current number of rounds this gun has.
+    private int currentRoundsLeft = 0;
     #endregion Fields
 
 
     #region Unity Methods
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -80,8 +98,6 @@ public class Gun : Weapon
     // Update is called once per frame
     public override void Update()
     {
-
-
         base.Update();
     }
     #endregion Unity Methods
@@ -112,8 +128,8 @@ public class Gun : Weapon
     // Potentially affected by fireRate.
     public void FireSingleBullet()
     {
-        // If the gun is ready to shoot,
-        if (canShoot)
+        // If the gun is ready to shoot, and there are enough rounds left to fire a shot,
+        if (canShoot && currentRoundsLeft >= roundsUsedPerShot)
         {
             // then fire a bullet.
             InstantiateBullet();
@@ -135,8 +151,8 @@ public class Gun : Weapon
     // Potentially affected by roundsPerMinute.
     public void FireBurst()
     {
-        // If the gun is ready to shoot,
-        if (canShoot)
+        // If the gun is ready to shoot, and there are enough rounds to fire a burst,
+        if (canShoot && currentRoundsLeft >= (roundsUsedPerShot * roundsPerBurst))
         {
             // then do the burst fire.
             DoBurst();
@@ -184,6 +200,9 @@ public class Gun : Weapon
     // Instantiates a bullet.
     private void InstantiateBullet()
     {
+        // Adjust the number of rounds left, as some are being used.
+        ChangeCurrentRounds(-roundsUsedPerShot);
+
         // Create a Projectile (bullet) at the barrel.
         Projectile projectile = Instantiate
             (
@@ -238,6 +257,37 @@ public class Gun : Weapon
         timeSinceFired = 0.0f;
         // The gun can now shoot.
         canShoot = true;
+    }
+
+    // Adjusts the number of rounds currently available by the amount provided.
+    // Positive numbers add to the rounds left, negative numbers decrease.
+    private void ChangeCurrentRounds(int change)
+    {
+        // Apply the change, minimum of 0 rounds left (though that should never be necessary).
+        currentRoundsLeft = Mathf.Max((currentRoundsLeft + change), 0);
+
+        // If this is equipped by the Player,
+        if (isEquippedByPlayer)
+        {
+            // then update the HUD.
+            UIManager.Instance.UpdateAmmoRemainingText(currentRoundsLeft);
+        }
+    }
+
+    // Called when the weapon is being equipped.
+    public override void OnEquip()
+    {
+        // Initialize the current rounds left.
+        ChangeCurrentRounds(numRoundsDefault);
+    }
+
+    // Called when the weapon is being unequipped.
+    public override void OnUnequip()
+    {
+        // Set the ammount of ammo available to 0.
+        ChangeCurrentRounds(-currentRoundsLeft);
+
+        base.OnUnequip();
     }
     #endregion Dev Methods
 }

@@ -1,9 +1,19 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/* Attribution:
+ *  Rifle icon - Eucalyp, flaticon.com
+ *  Hanfgun Icon - Kiranshastry, flaticon.com
+ */
+
 public abstract class Weapon : MonoBehaviour
 {
     #region Fields
+    [HideInInspector]
+    // Whether this weapon is attached to the Player.
+    public bool isEquippedByPlayer = false;
+
+
     [Header("Unity Events")]
 
     // The event to be called when the weapon starts its attack.
@@ -53,6 +63,19 @@ public abstract class Weapon : MonoBehaviour
     private float rotationSpeed = 5.0f;
 
 
+    [Header("Weapon Icon (UI)")]
+
+    [Tooltip("The Sprite for the icon representing this weapon on the Player's HUD.")]
+    public Sprite weaponIcon;
+
+
+    [Header("Scoring")]
+
+    [Tooltip("The amount of point value that wielding this weapon adds to the wielder." +
+        " The number of points earned by killing an enemy are increased by this number of their weapon.")]
+    public int pointValueModifier = 2;
+
+
     [Header("Object & Component References")]
 
     [SerializeField, Tooltip("The Transform on this gameObject.")]
@@ -61,6 +84,11 @@ public abstract class Weapon : MonoBehaviour
 
 
     #region Unity Methods
+    public virtual void Awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -89,6 +117,18 @@ public abstract class Weapon : MonoBehaviour
 
     // Called at the end of the attack with this weapon.
     public virtual void AttackEnd()
+    {
+
+    }
+
+    // Called when the weapon is being equipped.
+    public virtual void OnEquip()
+    {
+
+    }
+
+    // Called when the weapon is being unequipped.
+    public virtual void OnUnequip()
     {
 
     }

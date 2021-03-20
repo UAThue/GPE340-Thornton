@@ -29,12 +29,6 @@ public class AI_Controller : Controller
         base.Awake();
 
         // If any of these are null, try to set them up.
-        if (target == null)
-        {
-            // Assume that we want to target the player if the target was not set up by designer.
-            target = GameManager.Instance.GetPlayer().transform;
-        }
-
         if (agent == null)
         {
             // Grab the NavMeshAgent component off of this gameObject.
@@ -50,7 +44,11 @@ public class AI_Controller : Controller
     // Start is called before the first frame update
     public override void Start()
     {
-        
+        if (target == null)
+        {
+            // Assume that we want to target the player if the target was not set up by designer.
+            target = GameManager.GetPlayer().transform;
+        }
 
         base.Start();
     }
@@ -58,6 +56,25 @@ public class AI_Controller : Controller
     // Update is called once per frame
     public override void Update()
     {
+        // If the game is paused,
+        if (GameManager.Instance.isPaused)
+        {
+            // then return. Do nothing.
+            return;
+        }
+
+        // If there is a player,
+        if (GameManager.GetPlayer())
+        {
+            // then ensure the target is always set up correctly.
+            target = GameManager.GetPlayer().transform;
+        }
+        // Else, there is no Player right now. DO NOTHING.
+        else
+        {
+            return;
+        }
+
         // Tell the pawn to move. It will change from world directions to local directions automatically.
         pawn.Move(DesiredVelocity(), data.maxMoveSpeed);
         /* NOTE: AT this point, both animator AND navMeshAgent are moving the enemy!

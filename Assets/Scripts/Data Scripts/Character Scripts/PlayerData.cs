@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,17 +35,17 @@ public class PlayerData : WeaponAgent
     [SerializeField] private float staminaRecoveryRate = 20.0f;
 
 
+    [Header("Death Settings")]
+
+    [SerializeField, Tooltip("How long after death before the Player's body gameObject is destroyed." +
+        " This is separate and independent from the time before Player is respawned.")]
+    private float bodyDestructionDelay = 4.0f;
+
+
     [Header("Object & Component references")]
 
     [SerializeField, Tooltip("The Slider for the Stamina Bar on the UI HUD.")]
     private Slider staminaBar;
-
-    [SerializeField, Tooltip("The Slider for the Health Bar on the UI HUD.")]
-    private Slider healthBar;
-
-    // The player must have Health.
-    [Tooltip("The Health script attached to this character.")]
-    public Health health;
 
     [SerializeField, Tooltip("The Weapon the player starts with. Leave blank to start unarmed.")]
     private Weapon defaultWeapon;
@@ -55,26 +56,23 @@ public class PlayerData : WeaponAgent
     public override void Awake()
     {
         base.Awake();
+    }
 
+    // Start is called before the first frame update
+    public override void Start()
+    {
         // If there is a default weapon assigned,
         if (defaultWeapon != null)
         {
             // then equip that weapon.
             EquipWeapon(defaultWeapon);
         }
-    }
 
-    // Start is called before the first frame update
-    public override void Start()
-    {
+        // Register the player's health bar.
+        UIManager.Instance.RegisterPlayer(health);
+
         // Initialize currentStamina to equal maxStamina.
         currentStamina = maxStamina;
-
-        // If any of these are not set up, try to set them up.
-        if (health == null)
-        {
-            health = GetComponent<Health>();
-        }
 
         base.Start();
     }
@@ -175,12 +173,6 @@ public class PlayerData : WeaponAgent
         staminaBar.value = currentStamina / maxStamina;
     }
 
-    // Updates the health bar on the HUD. Called from the Health script when health changes.
-    public void UpdateHealthBar(float healthPercent)
-    {
-        healthBar.value = healthPercent;
-    }
-
     // Called to get the current stamina.
     public float GetCurrentStamina()
     {
@@ -190,13 +182,40 @@ public class PlayerData : WeaponAgent
     // Call this via events when the player dies.
     public override void HandleDeath()
     {
+        // Toggle the Ragdoll.
+        GetComponent<HumanoidPawn>().ToggleRagdoll(true);
         // Remove the Monobehaviors this Player won't need anymore.
         Destroy(this);
         Destroy(GetComponent<Health>());
         Destroy(GetComponent<Player_InputController>());
         Destroy(GetComponent<HumanoidPawn>());
 
+        // Destroy this gameObject after a delay. The delay must be positive.
+        Destroy(gameObject, Math.Abs(bodyDestructionDelay));
+
         base.HandleDeath();
+    }
+
+    // Set up all the references needed for this Player from the GM.
+    public void SetUpReferences()
+    {
+        // Set references to gameObjects as necessary.
+        staminaBar = GameManager.Instance.staminaBar;
+        overheadCam = GameManager.Instance.overheadCamera;
+
+        // Tell the camera to get a new reference to the Player.
+        overheadCam.FindPlayer();
+    }
+
+    // Overrides the WeaponAgent's EquipWeapon method.
+    public override void EquipWeapon(Weapon weapon)
+    {
+        base.EquipWeapon(weapon);
+        
+        equippedWeapon.isEquippedByPlayer = true;
+        equippedWeapon.OnEquip();
+
+        UIManager.Instance.UpdateWeaponIcon(equippedWeapon.weaponIcon);
     }
     #endregion Dev Methods
 }
