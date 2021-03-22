@@ -213,7 +213,6 @@ public class PlayerData : WeaponAgent
         base.EquipWeapon(weapon);
         
         equippedWeapon.isEquippedByPlayer = true;
-        equippedWeapon.OnEquip();
 
         UIManager.Instance.UpdateWeaponIcon(equippedWeapon.weaponIcon);
     }

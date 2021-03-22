@@ -147,6 +147,9 @@ public abstract class WeaponAgent : MonoBehaviour
 
         // Tell the weapon which Transform to match rotations with.
         equippedWeapon.rotationTarget = tf;
+
+        // Tell the weapon that it has been equipped.
+        equippedWeapon.OnEquip();
     }
 
     // Unequips the weapon, destroying it.

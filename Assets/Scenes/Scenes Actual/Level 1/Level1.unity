@@ -6378,7 +6378,7 @@ PrefabInstance:
       objectReference: {fileID: 379137726}
     - target: {fileID: 7426920140035404291, guid: 10492de605e7a594ca65459eb9e63d63, type: 3}
       propertyPath: initialLives
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7426920140035404291, guid: 10492de605e7a594ca65459eb9e63d63, type: 3}
       propertyPath: overheadCamera
@@ -6386,7 +6386,7 @@ PrefabInstance:
       objectReference: {fileID: 1930358059830292617}
     - target: {fileID: 7426920140035404291, guid: 10492de605e7a594ca65459eb9e63d63, type: 3}
       propertyPath: scoreWinCondition
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7426920140035404291, guid: 10492de605e7a594ca65459eb9e63d63, type: 3}
       propertyPath: playerStartLocation
