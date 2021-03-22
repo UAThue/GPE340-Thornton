@@ -213,6 +213,9 @@ public class GameManager : MonoBehaviour
     // The Player loses the game.
     public void LoseGame()
     {
+        // Pause the game (without invoking the normal onPause event).
+        DoPause(true);
+
         // Invoke the onLose event on the UIManager.
         UIManager.Instance.onLose.Invoke();
     }
@@ -230,6 +233,9 @@ public class GameManager : MonoBehaviour
     // Quits this game, taking the Player back to the main menu.
     public void QuitGame()
     {
+        // Ensure the game is unpaused.
+        DoPause(false);
+
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
