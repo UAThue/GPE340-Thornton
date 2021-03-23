@@ -365,9 +365,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1737842368194168797}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 100
+  m_MaxValue: 10
+  m_WholeNumbers: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -381,7 +381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 138202674004912794}
   m_Layer: 5
-  m_Name: Label & Slider Setting
+  m_Name: Label-Slider Setting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

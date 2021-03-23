@@ -861,7 +861,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 530838061297123156}
   m_OnClick:
     m_PersistentCalls:
@@ -1075,7 +1075,71 @@ MonoBehaviour:
   masterVolume_PrefName: MasterVolume_Pref
   soundVolume_PrefName: SoundVolume_Pref
   musicVolume_PrefName: MusicVolume_Pref
+  volumeVsDecibels:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -80.10889
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.19115132
+      value: -76.747765
+      inSlope: 17.430552
+      outSlope: 17.430552
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.57923055
+      value: -70.35495
+      inSlope: 13.726162
+      outSlope: 13.726162
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.35871595
+    - serializedVersion: 3
+      time: 3.6356478
+      value: -26.32779
+      inSlope: 10.199454
+      outSlope: 10.199454
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.19429985
+    - serializedVersion: 3
+      time: 4.531333
+      value: -17.314514
+      inSlope: 8.902736
+      outSlope: 8.902736
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 9.999464
+      value: 0.006914437
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   previousMenu: {fileID: 0}
+  masterAudioMixer: {fileID: 24100000, guid: 2696e7cf08e571744a43203cbcc5af16, type: 2}
+  masterBusName: masterVol
+  soundBusName: soundVol
+  musicBusName: musicVol
 --- !u!1 &7578381218652887488
 GameObject:
   m_ObjectHideFlags: 0

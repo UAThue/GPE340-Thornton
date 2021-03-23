@@ -221,6 +221,13 @@ public class Gun : Weapon
                 Vector3.forward * muzzleVelocity,
                 ForceMode.VelocityChange
             );
+
+        // If this gun makes an attackSound,
+        if (doesPlayAttackSound)
+        {
+            // then play the attackSound.
+            AttackSound();
+        }
     }
 
     // Calculates and returns the bullet's initial trajectory.

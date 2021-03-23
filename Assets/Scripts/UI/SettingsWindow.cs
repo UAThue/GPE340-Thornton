@@ -39,18 +39,6 @@ public class SettingsWindow : MonoBehaviour
     private Button applyButton;
 
 
-    [Header("Player Pref Names (NOTE: Changing these names means the user loses their settings.")]
-
-    [SerializeField, Tooltip("The name of the PlayerPref for the Master Volume setting.")]
-    private string masterVolume_PrefName = "MasterVolume_Pref";
-
-    [SerializeField, Tooltip("The name of the PlayerPref for the Sound Volume setting.")]
-    private string soundVolume_PrefName = "SoundVolume_Pref";
-
-    [SerializeField, Tooltip("The name of the PlayerPref for the Music Volume setting.")]
-    private string musicVolume_PrefName = "MusicVolume_Pref";
-
-
     [Header("Other Object & Component References")]
 
     [SerializeField, Tooltip("The gameObject holding the UI menu that should be opened when" +
@@ -72,7 +60,7 @@ public class SettingsWindow : MonoBehaviour
     private void OnEnable()
     {
         // Apply the currently saved preferences to the settings.
-        ApplyAllPreferences();
+        ApplyPreferencesToUI();
     }
 
     // Start is called before the first frame update
@@ -121,28 +109,34 @@ public class SettingsWindow : MonoBehaviour
     }
 
     // Update all current settings to the values saved in PlayerPrefs and via Unity.
-    private void ApplyAllPreferences()
+    private void ApplyPreferencesToUI()
     {
         // Apply Player Prefs to the volume sliders.
-        masterVolumeSlider.value = PlayerPrefs.GetFloat(masterVolume_PrefName, masterVolumeSlider.maxValue);
-        soundVolumeSlider.value = PlayerPrefs.GetFloat(soundVolume_PrefName, soundVolumeSlider.maxValue);
-        musicVolumeSlider.value = PlayerPrefs.GetFloat(musicVolume_PrefName, soundVolumeSlider.maxValue);
+        masterVolumeSlider.value =
+            PlayerPrefs.GetFloat(AudioManager.Instance.masterVolume_PrefName, masterVolumeSlider.maxValue);
+        soundVolumeSlider.value =
+            PlayerPrefs.GetFloat(AudioManager.Instance.soundVolume_PrefName, soundVolumeSlider.maxValue);
+        musicVolumeSlider.value =
+            PlayerPrefs.GetFloat(AudioManager.Instance.musicVolume_PrefName, soundVolumeSlider.maxValue);
         // Apply Unity's auto-saved preferences to fullscreen and video quality.
         fullScreenToggle.isOn = Screen.fullScreen;
         videoQualityDropdown.value = QualitySettings.GetQualityLevel();
         // Resolution settings are saved & applied automatically.
 
         // Apply those changes.
-        Apply(false);
+        ApplyChoicesToGame(false);
     }
 
     // Applies the current setting values. Can also save the values to preferences.
-    private void Apply(bool saveToPrefs)
+    private void ApplyChoicesToGame(bool saveToPrefs)
     {
         // No changes have been made anymore, so ensure the Apply button is not interactable.
         applyButton.interactable = false;
 
-        // TODO: Apply changes once sound is built.
+        AudioManager.Instance.ChangeBusVolumes
+            (AudioManager.Instance.VolumeToDecibel(masterVolumeSlider.value),
+            AudioManager.Instance.VolumeToDecibel(soundVolumeSlider.value),
+            AudioManager.Instance.VolumeToDecibel(musicVolumeSlider.value));
 
         if (saveToPrefs)
         {
@@ -154,9 +148,9 @@ public class SettingsWindow : MonoBehaviour
     // Save the current values as Player Preferences (the ones that Unity doesn't save automatically).
     private void SavePrefs()
     {
-        PlayerPrefs.SetFloat(masterVolume_PrefName, masterVolumeSlider.value);
-        PlayerPrefs.SetFloat(soundVolume_PrefName, soundVolumeSlider.value);
-        PlayerPrefs.SetFloat(musicVolume_PrefName, musicVolumeSlider.value);
+        PlayerPrefs.SetFloat(AudioManager.Instance.masterVolume_PrefName, masterVolumeSlider.value);
+        PlayerPrefs.SetFloat(AudioManager.Instance.soundVolume_PrefName, soundVolumeSlider.value);
+        PlayerPrefs.SetFloat(AudioManager.Instance.musicVolume_PrefName, musicVolumeSlider.value);
     }
 
     // Closes the Settings menu, opening up the appropriate previous menu.
@@ -179,7 +173,7 @@ public class SettingsWindow : MonoBehaviour
     public void SettingsMenu_OnApplyButtonClicked()
     {
         // Apply.
-        Apply(true);
+        ApplyChoicesToGame(true);
     }
     #endregion UI Callback Methods
 }
