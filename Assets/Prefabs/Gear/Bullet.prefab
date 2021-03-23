@@ -235,4 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifespan: 2
   damage: 1
+  defaultHitEffect: {fileID: 1031463520989215812, guid: 7eb249c89f2ee5d4692d2eb9eb499549, type: 3}
+  hitEffectDuration: 0.25
   rb: {fileID: 7757290755150963452}
+  tf: {fileID: 354589056287489149}

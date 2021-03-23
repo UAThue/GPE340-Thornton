@@ -71,6 +71,12 @@ public class Gun : Weapon
 
     // The current number of rounds this gun has.
     private int currentRoundsLeft = 0;
+
+
+    [Header("Muzzle Flash")]
+
+    [SerializeField, Tooltip("The ParticleSystem for the muzzle flash. It should be a child of the barrel.")]
+    private ParticleSystem muzzleFlashParticle;
     #endregion Fields
 
 
@@ -221,6 +227,13 @@ public class Gun : Weapon
                 Vector3.forward * muzzleVelocity,
                 ForceMode.VelocityChange
             );
+
+        // If the muzzleFlashParticle isn't null,
+        if (muzzleFlashParticle != null)
+        {
+            // then emit a particle.
+            muzzleFlashParticle.Emit(1);
+        }
 
         // If this gun makes an attackSound,
         if (doesPlayAttackSound)
