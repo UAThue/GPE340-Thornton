@@ -1,11 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-/* Attribution:
- *  Rifle icon - Eucalyp, flaticon.com
- *  Hanfgun Icon - Kiranshastry, flaticon.com
- */
-
 public abstract class Weapon : MonoBehaviour
 {
     #region Fields
@@ -76,6 +71,18 @@ public abstract class Weapon : MonoBehaviour
     public int pointValueModifier = 2;
 
 
+    [Header("Audio Settings")]
+
+    [SerializeField, Tooltip("Whether this weapon makes the attackSound when the attack starts.")]
+    protected bool doesPlayAttackSound = true;
+
+    [SerializeField, Tooltip("The sound this weapon makes when an attack is made with it (if applicable)")]
+    protected AudioClip attackSound;
+
+    [SerializeField, Tooltip("The AudioSource on this weapon.")]
+    protected AudioSource audioSource;
+
+
     [Header("Object & Component References")]
 
     [SerializeField, Tooltip("The Transform on this gameObject.")]
@@ -131,6 +138,12 @@ public abstract class Weapon : MonoBehaviour
     public virtual void OnUnequip()
     {
 
+    }
+
+    // Can be called to make a sound whenever an attack is made.
+    public void AttackSound()
+    {
+        audioSource.PlayOneShot(attackSound);
     }
 
     //Rotate the weapon to match the rotation of the target.

@@ -22,6 +22,18 @@ public class MainMenuManager : MonoBehaviour
     private string gameStartSceneName = "Level1";
 
 
+    [Header("Audio")]
+
+    [Tooltip("The EXACT name of the Master bus in the audio mixer.")]
+    public string masterBusName = "masterVol";
+
+    [Tooltip("The EXACT name of the Sound bus in the audio mixer.")]
+    public string soundBusName = "soundVol";
+
+    [Tooltip("The EXACT name of the Music bus in the audio mixer.")]
+    public string musicBusName = "musicVol";
+
+
     [Header("Object & Component References")]
 
     [SerializeField, Tooltip("The GameObject holding the Settings Screen UI.")]
@@ -74,6 +86,13 @@ public class MainMenuManager : MonoBehaviour
     {
         settingsScreen.SetActive(true);
         gameObject.SetActive(false);
+    }
+
+
+    // Applies the currently saved preferences to the game. Does not involve the Settings UI.
+    private void ApplyPreferencesToGame()
+    {
+
     }
     #endregion Dev Methods
 
