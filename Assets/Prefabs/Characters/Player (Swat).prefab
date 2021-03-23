@@ -455,7 +455,19 @@ MonoBehaviour:
   currentHealth: 0
   onDamage:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3443558704869128458}
+        m_TargetAssemblyTypeName: Health, Assembly-CSharp
+        m_MethodName: HurtSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -487,6 +499,7 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   playerData: {fileID: 8726527030737258746}
+  audioSource: {fileID: 4826206338190055884}
 --- !u!114 &518580227752588249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,7 +566,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -7866509878200085455, guid: 2696e7cf08e571744a43203cbcc5af16, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.325
+  m_Volume: 0.5
   m_Pitch: 1.4
   Loop: 0
   Mute: 0

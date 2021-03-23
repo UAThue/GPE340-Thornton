@@ -36,6 +36,12 @@ public class AudioManager : MonoBehaviour
 
     [Tooltip("The name of the PlayerPref for the Music Volume setting.")]
     public string musicVolume_PrefName = "MusicVolume_Pref";
+
+
+    [Header("Sounds for use")]
+
+    [Tooltip("The sound for when a characcter gets hurt.")]
+    public AudioClip hurtSound;
     #endregion Fields
 
 

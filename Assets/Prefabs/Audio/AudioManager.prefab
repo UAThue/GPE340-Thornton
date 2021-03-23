@@ -110,3 +110,4 @@ MonoBehaviour:
   masterVolume_PrefName: MasterVolume_Pref
   soundVolume_PrefName: SoundVolume_Pref
   musicVolume_PrefName: MusicVolume_Pref
+  hurtSound: {fileID: 8300000, guid: b46806db60d80724ba94cd28030cf08d, type: 3}
