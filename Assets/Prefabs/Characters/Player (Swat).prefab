@@ -361,6 +361,7 @@ GameObject:
   - component: {fileID: 3443558704869128458}
   - component: {fileID: 518580227752588249}
   - component: {fileID: 2119960344774479565}
+  - component: {fileID: 3202904343040955201}
   - component: {fileID: 5844101909386993674}
   - component: {fileID: 4826206338190055884}
   - component: {fileID: 1231634880198926152}
@@ -540,6 +541,19 @@ MonoBehaviour:
   rightHandRotation_Weight: 1
   rightElbowHint_Weight: 1
   data: {fileID: 8726527030737258746}
+--- !u!114 &3202904343040955201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861089307991395981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffcf4434fb683234cb4247b7fd2ddb63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffect: {fileID: 6001313373791400310, guid: fe3f84825f65fc340a08014a770c3d09, type: 3}
 --- !u!114 &5844101909386993674
 MonoBehaviour:
   m_ObjectHideFlags: 0
