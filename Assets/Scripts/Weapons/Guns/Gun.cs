@@ -98,6 +98,12 @@ public class Gun : Weapon
         // Calculate the number of seconds between each round during a burst.
         burstSpeed = burstTime / roundsPerBurst;
 
+        // Ensure the UI is correct for the Player.
+        if (isEquippedByPlayer)
+        {
+            UIManager.Instance.UpdateAmmoRemainingText(currentRoundsLeft);
+        }
+
         base.Start();
     }
 
@@ -299,6 +305,8 @@ public class Gun : Weapon
     {
         // Initialize the current rounds left.
         ChangeCurrentRounds(numRoundsDefault);
+
+        base.OnEquip();
     }
 
     // Called when the weapon is being unequipped.
