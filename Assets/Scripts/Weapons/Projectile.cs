@@ -10,12 +10,26 @@ public class Projectile : MonoBehaviour
 
     // The damage this projectile will do to Health targets it hits. Set at istantiation by the Weapon.
     public float damage = 1.0f;
+
+
+    [Header("Hit Particle Effect")]
+
+    [SerializeField, Tooltip("The default Particle System (gameObject) to spawn if" +
+        " what this projectile hits does not have a ProjectileHitOverride.")]
+    private ParticleSystem defaultHitEffect;
+
+    [SerializeField, Tooltip("The life of the particicle system effect that will" +
+        " spawn when the projectile hits something.")]
+    private float hitEffectDuration;
     
     
     [Header("Object & Component References")]
 
     [Tooltip("The Rigidbody on this projectile gameObject.")]
     public Rigidbody rb;
+
+    [SerializeField, Tooltip("The Transform on this gameObject.")]
+    private Transform tf;
     #endregion Fields
 
 
@@ -25,6 +39,11 @@ public class Projectile : MonoBehaviour
     {
         // Start the lifespan timer to self-destroy the bullet.
         Destroy(gameObject, lifespan);
+
+        if (tf == null)
+        {
+            tf = transform;
+        }
     }
 
     // Start is called before the first frame update
@@ -49,7 +68,10 @@ public class Projectile : MonoBehaviour
             // then damage that object.
             hitObject.Damage(damage);
         }
-        
+
+        // Create the appropriate particle system hit effect.
+        DoHitEffect(collision);
+
         // Destroy the bullet.
         Destroy(gameObject);
     }
@@ -57,6 +79,18 @@ public class Projectile : MonoBehaviour
 
 
     #region Dev Methods
-
+    // Do the hit effect.
+    private void DoHitEffect(Collision collision)
+    {
+        // Try to get a ProjectileHitEffect from the collision object.
+        ProjectileHitOverride hitOverride = collision.gameObject.GetComponent<ProjectileHitOverride>();
+        // Instantiate a hit effect based on whether one was found, and what its hitEffect is.
+        ParticleSystem hitEffect = Instantiate(
+            (hitOverride ? hitOverride.hitEffect : defaultHitEffect),
+            collision.contacts[0].point,
+            Quaternion.Inverse(tf.rotation)) as ParticleSystem;
+        // Destroy the particle system after the appropriate amount on time.
+        Destroy(hitEffect.gameObject, hitEffectDuration);
+    }
     #endregion Dev Methods
 }

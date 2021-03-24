@@ -71,6 +71,12 @@ public class Gun : Weapon
 
     // The current number of rounds this gun has.
     private int currentRoundsLeft = 0;
+
+
+    [Header("Muzzle Flash")]
+
+    [SerializeField, Tooltip("The ParticleSystem for the muzzle flash. It should be a child of the barrel.")]
+    private ParticleSystem muzzleFlashParticle;
     #endregion Fields
 
 
@@ -91,6 +97,12 @@ public class Gun : Weapon
 
         // Calculate the number of seconds between each round during a burst.
         burstSpeed = burstTime / roundsPerBurst;
+
+        // Ensure the UI is correct for the Player.
+        if (isEquippedByPlayer)
+        {
+            UIManager.Instance.UpdateAmmoRemainingText(currentRoundsLeft);
+        }
 
         base.Start();
     }
@@ -221,6 +233,20 @@ public class Gun : Weapon
                 Vector3.forward * muzzleVelocity,
                 ForceMode.VelocityChange
             );
+
+        // If the muzzleFlashParticle isn't null,
+        if (muzzleFlashParticle != null)
+        {
+            // then emit a particle.
+            muzzleFlashParticle.Emit(1);
+        }
+
+        // If this gun makes an attackSound,
+        if (doesPlayAttackSound)
+        {
+            // then play the attackSound.
+            AttackSound();
+        }
     }
 
     // Calculates and returns the bullet's initial trajectory.
@@ -279,6 +305,8 @@ public class Gun : Weapon
     {
         // Initialize the current rounds left.
         ChangeCurrentRounds(numRoundsDefault);
+
+        base.OnEquip();
     }
 
     // Called when the weapon is being unequipped.

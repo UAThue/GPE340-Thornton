@@ -20,6 +20,24 @@ public class MainMenuManager : MonoBehaviour
 
     [SerializeField, Tooltip("The EXACT name of the scene to load when the game starts.")]
     private string gameStartSceneName = "Level1";
+
+
+    [Header("Audio")]
+
+    [Tooltip("The EXACT name of the Master bus in the audio mixer.")]
+    public string masterBusName = "masterVol";
+
+    [Tooltip("The EXACT name of the Sound bus in the audio mixer.")]
+    public string soundBusName = "soundVol";
+
+    [Tooltip("The EXACT name of the Music bus in the audio mixer.")]
+    public string musicBusName = "musicVol";
+
+
+    [Header("Object & Component References")]
+
+    [SerializeField, Tooltip("The GameObject holding the Settings Screen UI.")]
+    private GameObject settingsScreen;
     #endregion Fields
 
 
@@ -61,6 +79,21 @@ public class MainMenuManager : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
+
+    // Activates the Settings Menu, which deactivates the Main Menu
+    // until the Player finished with the settings.
+    private void ActivateSettingsScreen()
+    {
+        settingsScreen.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
+
+    // Applies the currently saved preferences to the game. Does not involve the Settings UI.
+    private void ApplyPreferencesToGame()
+    {
+
+    }
     #endregion Dev Methods
 
 
@@ -79,6 +112,13 @@ public class MainMenuManager : MonoBehaviour
     {
         // Invoke the OnQuit event.
         onQuit.Invoke();
+    }
+
+    // Called when the Player clicks on the Settings button on the MainMenu.
+    public void MainMenu_OnSettingsButtonClicked()
+    {
+        // Open the settings menu.
+        ActivateSettingsScreen();
     }
     #endregion UI Callback Methods
 }

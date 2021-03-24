@@ -68,6 +68,9 @@ public class GameManager : MonoBehaviour
     // The Player's current score, earned by killing the enemies.
     private int currentScore = 0;
 
+    // The highest score yet achieved.
+    public int highScore { get; private set; }
+
 
     [Header("Other Object & Component References")]
 
@@ -100,10 +103,13 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         // Set initial lives.
         SetLivesLeft(initialLives);
+
+        // Load the previously saved game state.
+        //LoadSavedData();
     }
 
     // Update is called once per frame
@@ -165,8 +171,11 @@ public class GameManager : MonoBehaviour
     {
         // Apply the change, minimum of 0.
         currentScore = Mathf.Max((currentScore + scoreChange), 0);
+        // Change the highScore if applicable.
+        highScore = Mathf.Max(currentScore, highScore);
         // Tell the UIManager to update the UI.
         UIManager.Instance.UpdateScore(currentScore);
+
         // Check if the game has been won.
         if (currentScore >= scoreWinCondition)
         {
@@ -204,8 +213,12 @@ public class GameManager : MonoBehaviour
     // Restart the current level.
     public void RestartLevel()
     {
+        // Save the game.
+        //SaveGame();
+
         // Ensure that the game is NOT paused.
         DoPause(false);
+
         // RestartLevel the current level.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -215,6 +228,9 @@ public class GameManager : MonoBehaviour
     {
         // Pause the game (without invoking the normal onPause event).
         DoPause(true);
+
+        // Save the game.
+        //SaveGame();
 
         // Invoke the onLose event on the UIManager.
         UIManager.Instance.onLose.Invoke();
@@ -226,6 +242,9 @@ public class GameManager : MonoBehaviour
         // Pause the game (without invoking the normal onPause event).
         DoPause(true);
 
+        // Save the game.
+        //SaveGame();
+
         // Invoke the UIManager's onWin event.
         UIManager.Instance.onWin.Invoke();
     }
@@ -236,11 +255,32 @@ public class GameManager : MonoBehaviour
         // Ensure the game is unpaused.
         DoPause(false);
 
+        // Save the game.
+        //SaveGame();
+
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
+    // Save the current state of the game.
+    public void SaveGame()
+    {
+        SaveData newSave = new SaveData();
+        newSave.highScore = highScore;
+        newSave.Save("Save1");
+    }
 
-    #region Getters
+
+    // Load the save. Right now, there is only the one file and no ability to make more.
+    private void LoadSavedData()
+    {
+        SaveData loadedData = new SaveData();
+        loadedData = SaveData.Load("Save1");
+
+        highScore = loadedData.highScore;
+    }
+
+
+        #region Getters
     public static PlayerData GetPlayer()
     {
         // Return reference to the player.

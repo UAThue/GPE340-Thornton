@@ -153,8 +153,14 @@ public class Spawner : MonoBehaviour
                 DestroySelf();
             }
 
-            // Add a listener to that unit that calls HandleUnitDeath when it dies.
-            unit.GetComponent<Health>().onDie.AddListener(HandleUnitDeath);
+            // Try to get a Health from the unit.
+            Health unitHealth = unit.GetComponent<Health>();
+            // If the unit has health,
+            if (unitHealth != null)
+            {
+                // then add a listener to that unit that calls HandleUnitDeath when it dies.
+                unitHealth.onDie.AddListener(HandleUnitDeath);
+            }
 
             // Reset the time since the last spawn.
             timeSinceSpawn = 0.0f;

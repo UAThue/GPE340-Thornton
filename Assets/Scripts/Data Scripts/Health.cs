@@ -30,6 +30,9 @@ public class Health : MonoBehaviour
 
     [SerializeField, Tooltip("The PlayerData on the character this is attached to, if appropriate.")]
     private PlayerData playerData;
+
+    [SerializeField, Tooltip("The AudioSource on this character")]
+    private AudioSource audioSource;
     #endregion Fields
 
 
@@ -39,6 +42,12 @@ public class Health : MonoBehaviour
     {
         // Initialize the object's health.
         InitializeHealth();
+
+        // Set this up.
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     // Start is called before the first frame update
@@ -124,6 +133,12 @@ public class Health : MonoBehaviour
 
         // Invoke OnHeal for this component.
         onHeal.Invoke();
+    }
+
+    // Play the Hurt sound.
+    public void HurtSound()
+    {
+        audioSource.PlayOneShot(AudioManager.Instance.hurtSound);
     }
 
 

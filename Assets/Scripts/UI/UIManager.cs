@@ -51,6 +51,9 @@ public class UIManager : MonoBehaviour
     [SerializeField, Tooltip("The GameObject holding the Win Screen in the main canvas.")]
     private GameObject winScreen;
 
+    [SerializeField, Tooltip("The GameObject holding the Settings Screen in the main canvas.")]
+    private GameObject settingsScreen;
+
 
     [Header("Events")]
 
@@ -170,6 +173,13 @@ public class UIManager : MonoBehaviour
     {
         winScreen.SetActive(turnOn);
     }
+
+    // Turns on the settings screen from the in-game Pause screen.
+    public void ActivateSettingsScreen()
+    {
+        pauseMenu.SetActive(false);
+        settingsScreen.SetActive(true);
+    }
     #endregion Dev Methods
 
 
@@ -188,6 +198,12 @@ public class UIManager : MonoBehaviour
     {
         // Exit this game to the Main Menu.
         GameManager.Instance.QuitGame();
+    }
+
+    // Called when the Player presses the Settings button on the Pause Screen.
+    public void PauseScreen_OnSettingsButtonClicked()
+    {
+        ActivateSettingsScreen();
     }
 
 
