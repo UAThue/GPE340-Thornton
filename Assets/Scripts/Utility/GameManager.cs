@@ -213,9 +213,6 @@ public class GameManager : MonoBehaviour
     // Restart the current level.
     public void RestartLevel()
     {
-        // Save the game.
-        //SaveGame();
-
         // Ensure that the game is NOT paused.
         DoPause(false);
 
@@ -229,9 +226,6 @@ public class GameManager : MonoBehaviour
         // Pause the game (without invoking the normal onPause event).
         DoPause(true);
 
-        // Save the game.
-        //SaveGame();
-
         // Invoke the onLose event on the UIManager.
         UIManager.Instance.onLose.Invoke();
     }
@@ -241,9 +235,6 @@ public class GameManager : MonoBehaviour
     {
         // Pause the game (without invoking the normal onPause event).
         DoPause(true);
-
-        // Save the game.
-        //SaveGame();
 
         // Invoke the UIManager's onWin event.
         UIManager.Instance.onWin.Invoke();
@@ -255,28 +246,7 @@ public class GameManager : MonoBehaviour
         // Ensure the game is unpaused.
         DoPause(false);
 
-        // Save the game.
-        //SaveGame();
-
         SceneManager.LoadScene(mainMenuSceneName);
-    }
-
-    // Save the current state of the game.
-    public void SaveGame()
-    {
-        SaveData newSave = new SaveData();
-        newSave.highScore = highScore;
-        newSave.Save("Save1");
-    }
-
-
-    // Load the save. Right now, there is only the one file and no ability to make more.
-    private void LoadSavedData()
-    {
-        SaveData loadedData = new SaveData();
-        loadedData = SaveData.Load("Save1");
-
-        highScore = loadedData.highScore;
     }
 
 

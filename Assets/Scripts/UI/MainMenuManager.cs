@@ -74,10 +74,6 @@ public class MainMenuManager : MonoBehaviour
     public void EndProgram()
     {
         Application.Quit();
-
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
     }
 
     // Activates the Settings Menu, which deactivates the Main Menu
