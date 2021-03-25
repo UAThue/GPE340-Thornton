@@ -37,6 +37,10 @@ public class AudioManager : MonoBehaviour
     [Tooltip("The name of the PlayerPref for the Music Volume setting.")]
     public string musicVolume_PrefName = "MusicVolume_Pref";
 
+    [Tooltip("The name of the PlayerPref for keeping track whether audio settings " +
+        "have been saved by the Player at least once.")]
+    public string audioSettingsSaved_PrefName = "AudioSettingsSaved";
+
 
     [Header("Sounds for use")]
 
@@ -101,10 +105,24 @@ public class AudioManager : MonoBehaviour
     // Apply the already-saved preferences to the game (for audio).
     private void ApplyPreferencesToGame()
     {
-        ChangeBusVolumes
-            (VolumeToDecibel(PlayerPrefs.GetFloat(masterVolume_PrefName)),
-            VolumeToDecibel(PlayerPrefs.GetFloat(soundVolume_PrefName)),
-            VolumeToDecibel(PlayerPrefs.GetFloat(musicVolume_PrefName)));
+        float master;
+        float sound;
+        float music;
+
+        if (PlayerPrefs.GetInt(audioSettingsSaved_PrefName) == 1)
+        {
+            master = VolumeToDecibel(PlayerPrefs.GetFloat(masterVolume_PrefName));
+            sound = VolumeToDecibel(PlayerPrefs.GetFloat(soundVolume_PrefName));
+            music = VolumeToDecibel(PlayerPrefs.GetFloat(musicVolume_PrefName));
+        }
+        else
+        {
+            master = VolumeToDecibel(10f);
+            sound = VolumeToDecibel(10f);
+            music = VolumeToDecibel(10f);
+        }
+
+        ChangeBusVolumes(master, sound, music);
     }
     #endregion Dev Methods
 }
