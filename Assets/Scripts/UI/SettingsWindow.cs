@@ -95,7 +95,7 @@ public class SettingsWindow : MonoBehaviour
                 (string.Format("{0} x {1}", Screen.resolutions[i].width, Screen.resolutions[i].height));
         }
 
-        // Finish by actually adding them to the dropdown as options.
+        // Actually add them to the dropdown as options.
         resolutionDropdown.AddOptions(resolutions);
     }
 
@@ -118,6 +118,19 @@ public class SettingsWindow : MonoBehaviour
             PlayerPrefs.GetFloat(AudioManager.Instance.soundVolume_PrefName, soundVolumeSlider.maxValue);
         musicVolumeSlider.value =
             PlayerPrefs.GetFloat(AudioManager.Instance.musicVolume_PrefName, soundVolumeSlider.maxValue);
+
+        // Find the correct value in the resolutions dropdown for the current resolution.
+        string currentRes =
+                string.Format("{0} x {1}", Screen.currentResolution.width, Screen.currentResolution.height);
+        for (int i = 0; i < resolutionDropdown.options.Count; i++)
+        {
+            if (resolutionDropdown.options[i].text == currentRes)
+            {
+                resolutionDropdown.value = i;
+                break;
+            }
+        }
+
         // Apply Unity's auto-saved preferences to fullscreen and video quality.
         fullScreenToggle.isOn = Screen.fullScreen;
         videoQualityDropdown.value = QualitySettings.GetQualityLevel();
@@ -138,6 +151,20 @@ public class SettingsWindow : MonoBehaviour
             AudioManager.Instance.VolumeToDecibel(soundVolumeSlider.value),
             AudioManager.Instance.VolumeToDecibel(musicVolumeSlider.value));
 
+        int resolutionValueIndex = resolutionDropdown.value;
+        int width = Screen.width;
+        int height = Screen.height;
+        for (int i = 0; i < Screen.resolutions.Length; i ++)
+        {
+            if (i == resolutionValueIndex)
+            {
+                width = Screen.resolutions[i].width;
+                height = Screen.resolutions[i].height;
+            }
+        }
+
+        Screen.SetResolution(width, height, fullScreenToggle.isOn);
+
         if (saveToPrefs)
         {
             // Save the current values as Player Preferences (the ones that Unity doesn't save automatically).
@@ -151,6 +178,7 @@ public class SettingsWindow : MonoBehaviour
         PlayerPrefs.SetFloat(AudioManager.Instance.masterVolume_PrefName, masterVolumeSlider.value);
         PlayerPrefs.SetFloat(AudioManager.Instance.soundVolume_PrefName, soundVolumeSlider.value);
         PlayerPrefs.SetFloat(AudioManager.Instance.musicVolume_PrefName, musicVolumeSlider.value);
+        PlayerPrefs.SetInt(AudioManager.Instance.audioSettingsSaved_PrefName, 1);
     }
 
     // Closes the Settings menu, opening up the appropriate previous menu.
