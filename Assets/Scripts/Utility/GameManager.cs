@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("The EXACT name of the Main Menu scene.")]
     private string mainMenuSceneName = "MainMenu";
 
+    [SerializeField, Tooltip("The EXACT name of the Credits scene.")]
+    private string creditsSceneName = "Credits";
+
 
     [Header("Scoring")]
 
@@ -247,6 +250,15 @@ public class GameManager : MonoBehaviour
         DoPause(false);
 
         SceneManager.LoadScene(mainMenuSceneName);
+    }
+
+    // Loads the Credits scene.
+    public void PlayCredits()
+    {
+        // Ensure the game is unpaused.
+        DoPause(false);
+
+        SceneManager.LoadScene(creditsSceneName);
     }
 
 

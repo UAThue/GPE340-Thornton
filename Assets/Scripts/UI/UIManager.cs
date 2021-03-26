@@ -239,5 +239,12 @@ public class UIManager : MonoBehaviour
         // Quit this game and go to the main menu.
         GameManager.Instance.QuitGame();
     }
+
+    // Called when the Player presses the Credits button on the Win Screen.
+    public void WinScreen_OnCreditsButtonClicked()
+    {
+        // Tell the GM to load the credits scene.
+        GameManager.Instance.PlayCredits();
+    }
     #endregion UI Callback Methods
 }

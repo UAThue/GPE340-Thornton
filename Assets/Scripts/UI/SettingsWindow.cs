@@ -189,6 +189,7 @@ public class SettingsWindow : MonoBehaviour
     }
     #endregion Dev Methods
 
+
     #region UI Callback Methods
     // Called when the Player clicks on the Back button of the Settings Menu.
     public void SettingsMenu_OnBackButtonClicked()
